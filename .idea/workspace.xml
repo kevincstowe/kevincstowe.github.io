@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ea8503f4-cfe0-49e0-b225-58b8255fca61" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/kevincstowe.github.io.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/old_version/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pic.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/contact.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cv.html" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/cv.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/bg.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/bg.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/icon_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/icon_1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/icon_10.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/icon_10.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/icon_11.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/icon_11.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/icon_12.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/icon_12.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/icon_13.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/icon_13.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/icon_14.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/icon_14.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/icon_15.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/icon_15.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/icon_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/icon_2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/icon_3.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/icon_3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/icon_4.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/icon_4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/icon_5.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/icon_5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/icon_6.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/icon_6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/icon_7.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/icon_7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/icon_8.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/icon_8.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/icon_9.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/icon_9.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/pic.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/images/pic.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/contact.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/js/contact.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/js/custom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/education.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/js/education.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/experience.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/js/experience.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/jquery-3.2.1.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/js/jquery-3.2.1.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/portfolio.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/js/portfolio.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/services.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/js/services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/skills.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/js/skills.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/testimonials.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/js/testimonials.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/Isotope/fitcolumns.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/Isotope/fitcolumns.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/Isotope/isotope.pkgd.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/Isotope/isotope.pkgd.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/OwlCarousel2-2.2.1/ajax-loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/OwlCarousel2-2.2.1/ajax-loader.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/OwlCarousel2-2.2.1/animate.css" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/OwlCarousel2-2.2.1/animate.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/OwlCarousel2-2.2.1/owl.carousel.css" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/OwlCarousel2-2.2.1/owl.carousel.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/OwlCarousel2-2.2.1/owl.carousel.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/OwlCarousel2-2.2.1/owl.carousel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/OwlCarousel2-2.2.1/owl.theme.default.css" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/OwlCarousel2-2.2.1/owl.theme.default.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/OwlCarousel2-2.2.1/owl.video.play.png" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/OwlCarousel2-2.2.1/owl.video.play.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/easing/easing.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/easing/easing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/HELP-US-OUT.txt" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/HELP-US-OUT.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/css/font-awesome.css" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/css/font-awesome.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/css/font-awesome.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/css/font-awesome.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/fonts/FontAwesome.otf" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/fonts/FontAwesome.otf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.eot" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.eot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.svg" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.woff" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.woff2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/less/animated.less" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/less/animated.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/less/bordered-pulled.less" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/less/bordered-pulled.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/less/core.less" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/less/core.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/less/fixed-width.less" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/less/fixed-width.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/less/font-awesome.less" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/less/font-awesome.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/less/icons.less" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/less/icons.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/less/larger.less" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/less/larger.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/less/list.less" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/less/list.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/less/mixins.less" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/less/mixins.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/less/path.less" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/less/path.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/less/rotated-flipped.less" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/less/rotated-flipped.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/less/screen-reader.less" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/less/screen-reader.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/less/stacked.less" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/less/stacked.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/less/variables.less" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/less/variables.less" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/scss/_animated.scss" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/scss/_animated.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/scss/_bordered-pulled.scss" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/scss/_bordered-pulled.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/scss/_core.scss" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/scss/_core.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/scss/_fixed-width.scss" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/scss/_fixed-width.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/scss/_icons.scss" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/scss/_icons.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/scss/_larger.scss" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/scss/_larger.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/scss/_list.scss" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/scss/_list.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/scss/_mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/scss/_mixins.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/scss/_path.scss" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/scss/_path.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/scss/_rotated-flipped.scss" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/scss/_rotated-flipped.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/scss/_screen-reader.scss" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/scss/_screen-reader.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/scss/_stacked.scss" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/scss/_stacked.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/scss/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/scss/_variables.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/font-awesome-4.7.0/scss/font-awesome.scss" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/font-awesome-4.7.0/scss/font-awesome.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/greensock/ScrollToPlugin.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/greensock/ScrollToPlugin.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/greensock/TimelineMax.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/greensock/TimelineMax.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/greensock/TweenMax.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/greensock/TweenMax.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/greensock/animation.gsap.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/greensock/animation.gsap.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/mCustomScrollbar/jquery.mCustomScrollbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/mCustomScrollbar/jquery.mCustomScrollbar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/mCustomScrollbar/jquery.mCustomScrollbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/mCustomScrollbar/jquery.mCustomScrollbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/parallax-js-master/parallax.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/parallax-js-master/parallax.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/progressbar/progressbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/progressbar/progressbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/progressbar/progressbar.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/progressbar/progressbar.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/scrollmagic/ScrollMagic.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/plugins/scrollmagic/ScrollMagic.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects.html" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/projects.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/bootstrap-4.1.2/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/styles/bootstrap-4.1.2/bootstrap.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/bootstrap-4.1.2/bootstrap.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/styles/bootstrap-4.1.2/bootstrap.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/bootstrap-4.1.2/popper.js" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/styles/bootstrap-4.1.2/popper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/contact.css" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/styles/contact.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/contact_responsive.css" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/styles/contact_responsive.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/cv.css" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/styles/cv.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/cv_responsive.css" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/styles/cv_responsive.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/main_styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/styles/main_styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/projects.css" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/styles/projects.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/projects_responsive.css" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/styles/projects_responsive.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/responsive.css" beforeDir="false" afterPath="$PROJECT_DIR$/old_version/styles/responsive.css" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1djaj4LBHYpKy6By2g9BaKIKBgG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io\old_version" />
+    </key>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ea8503f4-cfe0-49e0-b225-58b8255fca61" name="Default Changelist" comment="" />
+      <created>1592941087151</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1592941087151</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="463" y="139" key="FileChooserDialogImpl" timestamp="1592941099385">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="463" y="139" key="FileChooserDialogImpl/0.0.1366.768@0.0.1366.768" timestamp="1592941099385" />
+    <state x="275" y="117" key="Vcs.Push.Dialog.v2" timestamp="1592941596071">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="275" y="117" key="Vcs.Push.Dialog.v2/0.0.1366.768@0.0.1366.768" timestamp="1592941596071" />
+  </component>
+</project>
