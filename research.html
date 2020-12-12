@@ -2,26 +2,35 @@
 <html lang="en">
 <head>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+      <link rel="stylesheet" href="css/basic.css"/>
 <title>Kevin Stowe, UKP</title>
 </head>
 
 <body>
-<h1>Kevin Stowe</h1>
-<img src="pic.jpg"><br>
-<a href="mailto:kevincstowe@gmail.com">kevincstowe@gmail.com</a> | <a href="Resume.pdf">Resume</a> | <a href="Stowe_Curriculum_Vitae.pdf">CV</a> <br>
-Postdoctoral Researcher, <a href="https://ukp.informatik.tu-darmstadt.de/">UKP Lab</a>, <a href="https://www.tu-darmstadt.de/">TU Darmstadt</a> <br>
-<a href="https://scholar.google.com/citations?user=D0BLnrIAAAAJ&hl=en">Google Scholar</a>
+<table>
+  <tr><h1 style="display: inline-block;">Kevin Stowe</h1><img class="clip-circle" src="pic.jpg"></tr>
+</table>
+<ul>
+  <li><a href="Resume.pdf">Resume</a>  </li>
+  <li><a href="Stowe_Curriculum_Vitae.pdf">CV</a> </li>
+  <li><a href="https://scholar.google.com/citations?user=D0BLnrIAAAAJ&hl=en">Google Scholar</a></li>
+  <li><a href="mailto:kevincstowe@gmail.com">kevincstowe@gmail.com</a></li>
+</ul>
 
-<hr>
-<a href="index.html">About</a> &bull; <a href="research.html"><b>Research</b></a> &bull; <a href="teaching.html">Teaching</a> &bull; <a href="publications.html">Publications</a> &bull; <a href="personal.html">Personal</a>
-  <br>
-      
+<ul class="m">
+  <li class="m"><a href="index.html">About</a></li>
+  <li class="m active"><a href="research.html">Research</a> </li>
+  <li class="m"><a href="teaching.html">Teaching</a></li>
+  <li class="m"> <a href="publications.html">Publications</a> </li>
+  <li class="m"><a href="personal.html">Personal</a></li>
+</ul>
 
 <h3>Current Research Projects</h3>
 <ul>
-  <li>Currently working on creative language generation, exploring possibilities for generating all sorts of novel language (humor, metaphor, etc) using deep learning. Are end-to-end models sufficient, and if not, how can we improve them to handle this difficult area of language? This work is being done with the help of two BA thesis students, and we've seen promising results with regard to metaphors and humor: results forthcoming!</li>
-  <li>Relatedly, I'm studying evaluation methods for language generation. Many metrics seem to perform well for literal language, or for certain tasks, but correlate negatively with metaphoric utterances. I've explored metrics and solutions, developing a system for better evaluation. Results are also forthcoming!</li>
-    <li>I also work on social media collection for crises events, supporting citizen science efforts to annotate the never-ending stream of data that can contribute to our situational awareness, including the COVID-19 crisis. Our goal is to build a system for quick and efficient data collection and annotation to improve responses to natural hazards. Our collection uses the helpful <a href="https://github.com/lschmelzeisen/nasty">Nasty Scraper</a> for collection as well as the powerful <a href="https://inception-project.github.io/">INCEpTION</a> tool for annotation.</li>
+  <li>Creative language generation: exploring possibilities for generating all sorts of novel language (humor, metaphor, etc) using deep learning. Are end-to-end models sufficient, and if not, how can we improve them to handle this difficult area of language?</li>
+    <ul><li>For a first pass at generating metaphors with masked language modeling, see our arxiv paper, <a href="https://arxiv.org/abs/2002.12854">Metaphoric Paraphrase Generation</a></li></ul>
+    <li>Social media collection and analysis for crises events, supporting citizen science efforts to annotate the never-ending stream of data that can contribute to our situational awareness, including the COVID-19 crisis. Our goal is to build a system for quick and efficient data collection and annotation to improve responses to natural hazards. Our collection uses the helpful <a href="https://github.com/lschmelzeisen/nasty">Nasty Scraper</a> for collection as well as the powerful <a href="https://inception-project.github.io/">INCEpTION</a> tool for annotation.</li>
+    <ul><li>Check out my and my students' <a href="https://public.ukp.informatik.tu-darmstadt.de/UKP_Webpage/publications/2020/2020_AAAI_FSS_SG_Data_Pipeline.pdf">work on a social good data collection pipeline</a>, presented at the <a href="https://ai-for-socialgood.github.io/">AAAI Fall Symposium on Social Good</a></li></ul>
 </ul>
 
 <h3>Previous Projects</h3>
@@ -31,3 +40,9 @@ Postdoctoral Researcher, <a href="https://ukp.informatik.tu-darmstadt.de/">UKP L
     <li>Worked for the <a href="https://epic.cs.colorado.edu/">Project Epic</a> lab with Profs. Leysia Palen and Kenneth M. Anderson. We collaborated with <a href="https://ncar.ucar.edu/">NCAR</a> to analyze responses to hurricanes, and build improved computaitonal methods for data analysis and exploration in order to assist researchers understanding the effects of natural disasters.</li>
 </ul>
 
+<div class="footer">
+  Contact: <a href="mailto:kevincstowe@gmail.com">kevincstowe@gmail.com</a>
+</div>
+
+</body>
+</html>
