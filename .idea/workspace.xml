@@ -19,9 +19,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ea8503f4-cfe0-49e0-b225-58b8255fca61" name="Default Changelist" comment="minor updates">
-      <change beforePath="$PROJECT_DIR$/Resume_normal.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stowe_Curriculum_Vitae.pdf" beforeDir="false" />
+    <list default="true" id="ea8503f4-cfe0-49e0-b225-58b8255fca61" name="Default Changelist" comment="Updating css">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,11 +43,13 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io" />
+      <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io\old_version" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io\old_version" />
+      <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io\css" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -83,7 +84,35 @@
       <option name="project" value="LOCAL" />
       <updated>1592945193419</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="updating resume/cv">
+      <created>1592949262713</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1592949262713</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Some light CSS">
+      <created>1607806002868</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1607806002868</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Some light CSS">
+      <created>1607807180528</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1607807180528</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Updating css">
+      <created>1607808825468</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1607808825468</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -96,20 +125,24 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="refactoring into simple website" />
     <MESSAGE value="minor updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor updates" />
+    <MESSAGE value="updating resume/cv" />
+    <MESSAGE value="Some light CSS" />
+    <MESSAGE value="Updating css" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updating css" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="463" y="139" key="FileChooserDialogImpl" timestamp="1592941099385">
+    <state x="275" y="117" key="Vcs.Push.Dialog.v2" timestamp="1607808843486">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="463" y="139" key="FileChooserDialogImpl/0.0.1366.768@0.0.1366.768" timestamp="1592941099385" />
-    <state x="275" y="117" key="Vcs.Push.Dialog.v2" timestamp="1592945200213">
+    <state x="275" y="117" key="Vcs.Push.Dialog.v2/0.0.1366.768/1366.0.1920.1080@0.0.1366.768" timestamp="1607808843486" />
+    <state x="377" y="172" key="git4idea.merge.GitPullDialog" timestamp="1607801546194">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="275" y="117" key="Vcs.Push.Dialog.v2/0.0.1366.768@0.0.1366.768" timestamp="1592945200213" />
+    <state x="377" y="172" key="git4idea.merge.GitPullDialog/0.0.1366.768/1366.0.1920.1080@0.0.1366.768" timestamp="1607801546194" />
   </component>
 </project>
