@@ -20,7 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ea8503f4-cfe0-49e0-b225-58b8255fca61" name="Default Changelist" comment="Updating css">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CV.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resume.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Resume.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resume_Kevin_Stowe.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Stowe_Curriculum_Vitae.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/personal.html" beforeDir="false" afterPath="$PROJECT_DIR$/personal.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/publications.html" beforeDir="false" afterPath="$PROJECT_DIR$/publications.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/research.html" beforeDir="false" afterPath="$PROJECT_DIR$/research.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teaching.html" beforeDir="false" afterPath="$PROJECT_DIR$/teaching.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,15 +51,17 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io" />
-      <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io\old_version" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io" />
       <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io\css" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\kevin\PycharmProjects\kevincstowe.github.io" />
+      <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io" />
+      <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io\old_version" />
+    </key>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
