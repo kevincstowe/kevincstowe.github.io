@@ -22,10 +22,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ea8503f4-cfe0-49e0-b225-58b8255fca61" name="Default Changelist" comment="Updating resume">
-      <change afterPath="$PROJECT_DIR$/projects.html" afterDir="false" />
+    <list default="true" id="ea8503f4-cfe0-49e0-b225-58b8255fca61" name="Default Changelist" comment="Updating with projects section">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects.html" beforeDir="false" afterPath="$PROJECT_DIR$/projects.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/publications.html" beforeDir="false" afterPath="$PROJECT_DIR$/publications.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/research.html" beforeDir="false" afterPath="$PROJECT_DIR$/research.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -146,7 +146,21 @@
       <option name="project" value="LOCAL" />
       <updated>1718633958867</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Updating with projects section">
+      <created>1724800434963</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1724800434963</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Updating with projects section">
+      <created>1724800563188</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1724800563188</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -168,6 +182,7 @@
     <MESSAGE value="Updating css" />
     <MESSAGE value="Updating paper title" />
     <MESSAGE value="Updating resume" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updating resume" />
+    <MESSAGE value="Updating with projects section" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updating with projects section" />
   </component>
 </project>
