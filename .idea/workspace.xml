@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -19,16 +22,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ea8503f4-cfe0-49e0-b225-58b8255fca61" name="Default Changelist" comment="Updating css">
-      <change afterPath="$PROJECT_DIR$/CV.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resume.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Resume.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resume_Kevin_Stowe.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stowe_Curriculum_Vitae.pdf" beforeDir="false" />
+    <list default="true" id="ea8503f4-cfe0-49e0-b225-58b8255fca61" name="Default Changelist" comment="Updating resume">
+      <change afterPath="$PROJECT_DIR$/projects.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/personal.html" beforeDir="false" afterPath="$PROJECT_DIR$/personal.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/publications.html" beforeDir="false" afterPath="$PROJECT_DIR$/publications.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/research.html" beforeDir="false" afterPath="$PROJECT_DIR$/research.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teaching.html" beforeDir="false" afterPath="$PROJECT_DIR$/teaching.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,24 +36,29 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="1djaj4LBHYpKy6By2g9BaKIKBgG" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/Users/kstowe/PycharmProjects/kevincstowe.github.io"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io" />
       <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io\css" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="C:\Users\kevin\PycharmProjects\kevincstowe.github.io" />
       <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io" />
       <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io\old_version" />
@@ -122,7 +125,28 @@
       <option name="project" value="LOCAL" />
       <updated>1607808825468</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Updating resume">
+      <created>1718633627786</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1718633627786</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Updating paper title">
+      <created>1718633755070</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1718633755070</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Updating resume">
+      <created>1718633958867</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1718633958867</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -135,7 +159,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="refactoring into simple website" />
@@ -143,16 +166,8 @@
     <MESSAGE value="updating resume/cv" />
     <MESSAGE value="Some light CSS" />
     <MESSAGE value="Updating css" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updating css" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="275" y="117" key="Vcs.Push.Dialog.v2" timestamp="1607808843486">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="275" y="117" key="Vcs.Push.Dialog.v2/0.0.1366.768/1366.0.1920.1080@0.0.1366.768" timestamp="1607808843486" />
-    <state x="377" y="172" key="git4idea.merge.GitPullDialog" timestamp="1607801546194">
-      <screen x="0" y="0" width="1366" height="768" />
-    </state>
-    <state x="377" y="172" key="git4idea.merge.GitPullDialog/0.0.1366.768/1366.0.1920.1080@0.0.1366.768" timestamp="1607801546194" />
+    <MESSAGE value="Updating paper title" />
+    <MESSAGE value="Updating resume" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updating resume" />
   </component>
 </project>
