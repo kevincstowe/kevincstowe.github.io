@@ -22,11 +22,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ea8503f4-cfe0-49e0-b225-58b8255fca61" name="Default Changelist" comment="Updating with projects section">
+    <list default="true" id="ea8503f4-cfe0-49e0-b225-58b8255fca61" name="Default Changelist" comment="Updating resume">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects.html" beforeDir="false" afterPath="$PROJECT_DIR$/projects.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/publications.html" beforeDir="false" afterPath="$PROJECT_DIR$/publications.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/research.html" beforeDir="false" afterPath="$PROJECT_DIR$/research.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,15 +41,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/Users/kstowe/PycharmProjects/kevincstowe.github.io"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\kevin\PycharmProjects\kevincstowe.github.io" />
       <recent name="$PROJECT_DIR$" />
       <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io" />
       <recent name="C:\Users\Kevin\PycharmProjects\kevincstowe.github.io\css" />
@@ -160,7 +154,14 @@
       <option name="project" value="LOCAL" />
       <updated>1724800563188</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Updating resume">
+      <created>1725582869770</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1725582869770</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -173,6 +174,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="refactoring into simple website" />
@@ -181,8 +183,8 @@
     <MESSAGE value="Some light CSS" />
     <MESSAGE value="Updating css" />
     <MESSAGE value="Updating paper title" />
-    <MESSAGE value="Updating resume" />
     <MESSAGE value="Updating with projects section" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updating with projects section" />
+    <MESSAGE value="Updating resume" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updating resume" />
   </component>
 </project>
