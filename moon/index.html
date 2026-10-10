@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
 <title>MOON</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='9' fill='%23161d31'/%3E%3Cpath d='M10 2A8 8 0 1 1 10 18A5 8 0 1 0 10 2Z' fill='%23eef0f7'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -80,7 +81,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .link { background: none; border: 0; padding: 0; color: var(--accent); font-size: .8rem; font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .x { background: none; border: 1px solid transparent; border-radius: 8px; color: var(--muted); padding: 2px 8px; cursor: pointer; font-size: .85rem; flex: none; }
 .x:hover { color: var(--red); border-color: var(--line); }
-.x.armed { color: var(--red); background: var(--red-bg); border-color: var(--red); font-weight: 600; }
+.x.armed, .link.armed { color: var(--red); background: var(--red-bg); border-color: var(--red); font-weight: 600; }
+.link.armed { border: 1px solid var(--red); border-radius: 8px; padding: 2px 8px; text-decoration: none; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 input[type=text], input[type=number], input[type=date], select, textarea { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; min-width: 0; }
@@ -181,10 +183,38 @@ dialog::backdrop { background: rgba(8, 12, 24, .6); }
 .menu-item span { min-width: 0; overflow-wrap: anywhere; }
 
 .status { font-size: .78rem; color: var(--muted); }
+[hidden] { display: none !important; }
+.sub { font-family: var(--font-display); font-size: 1.15rem; line-height: 1.2; color: var(--c, var(--fg)); margin-bottom: 4px; }
+#menuHint { font-family: var(--font-display); font-size: 1.3rem; line-height: 1.2; color: var(--fg); }
+.who { margin-left: auto; display: flex; align-items: center; gap: 12px; font-size: .88rem; color: var(--muted); flex-wrap: wrap; justify-content: flex-end; }
+.who strong { color: var(--fg); }
+.auth { min-height: 100vh; display: grid; place-items: center; padding: 20px; }
+.auth-card { width: min(420px, 100%); background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+.auth-brand { display: flex; align-items: center; gap: 12px; }
+.auth-form { display: flex; flex-direction: column; gap: 14px; }
+.auth-form input[type=text], .auth-form input[type=password] { width: 100%; }
+.check { display: flex; align-items: center; gap: 8px; font-size: .88rem; color: var(--muted); }
+.tab.plain[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
 .steps { padding-left: 1.3em; display: flex; flex-direction: column; gap: 6px; font-size: .88rem; color: var(--muted); }
 code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .85em; background: var(--surface-2); padding: 1px 5px; border-radius: 5px; }
 .data-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
+.sum-body { display: flex; flex-direction: column; gap: 20px; }
+.sum-strip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.sum-cell { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 2px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); min-width: 0; text-align: center; }
+.sum-cell.g, .sum-cell.y, .sum-cell.r { background: var(--cbg); border-color: var(--c); }
+.sum-dow { font-size: .68rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.sum-lvl { font-size: .72rem; font-weight: 600; color: var(--c, var(--muted)); }
+.sum-fin { font-size: .8rem; line-height: 1; color: var(--c, var(--muted)); min-height: .8rem; }
+.sum-line { font-size: .9rem; color: var(--muted); }
+.sum-sec { display: flex; flex-direction: column; gap: 8px; }
+.sum-sec ul { display: flex; flex-direction: column; gap: 8px; }
+.sum-sec li { overflow-wrap: anywhere; }
+.sum-sec li > .act-meta { margin-left: 6px; }
+.sum-goal { display: flex; flex-direction: column; gap: 4px; }
+.sum-goal-top { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.sum-pre { white-space: pre-wrap; }
+#sumText { width: 100%; min-height: 160px; font: .85rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
 @media (max-width: 860px) {
   .app { grid-template-columns: minmax(0, 1fr); }
   .side { position: static; max-height: none; overflow: visible; order: 2; padding-right: 0; }
@@ -196,10 +226,37 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
 </style>
 </head>
 <body>
-<div class="app">
+<div class="auth" id="auth" hidden>
+  <div class="auth-card">
+    <div class="auth-brand"><span class="logo" id="authLogo" aria-hidden="true"></span><h1 class="wordmark">MOON</h1></div>
+    <div class="tabs" role="tablist">
+      <button class="tab plain" type="button" role="tab" data-action="auth-tab" data-tab="login" aria-selected="true">Sign in</button>
+      <button class="tab plain" type="button" role="tab" data-action="auth-tab" data-tab="signup" aria-selected="false">Create account</button>
+    </div>
+    <form class="auth-form" id="loginForm" novalidate>
+      <div class="field"><label for="li-name">Name</label><input type="text" id="li-name" autocomplete="username" autocapitalize="none" spellcheck="false"></div>
+      <div class="field"><label for="li-pass">Password</label><input type="password" id="li-pass" autocomplete="current-password"></div>
+      <label class="check"><input type="checkbox" id="li-keep"> Keep me signed in on this device</label>
+      <button class="btn primary" type="submit" id="loginBtn">Sign in</button>
+    </form>
+    <form class="auth-form" id="signupForm" hidden novalidate>
+      <div class="field"><label for="su-name">Name</label><input type="text" id="su-name" autocomplete="username" autocapitalize="none" spellcheck="false"></div>
+      <div class="field"><label for="su-pass">Password</label><input type="password" id="su-pass" autocomplete="new-password"></div>
+      <div class="field"><label for="su-pass2">Password again</label><input type="password" id="su-pass2" autocomplete="new-password"></div>
+      <label class="check" id="legacyRow" hidden><input type="checkbox" id="su-legacy" checked> Bring in the data already saved in this browser</label>
+      <label class="check"><input type="checkbox" id="su-keep"> Keep me signed in on this device</label>
+      <button class="btn primary" type="submit" id="signupBtn">Create account</button>
+    </form>
+    <p class="err" id="authErr" role="alert" hidden></p>
+    <p class="hint">Your password scrambles your data before it is saved anywhere. Nobody can reset it, including the site owner. If you forget it, that account's data cannot be opened. Use at least 10 characters.</p>
+  </div>
+</div>
+
+<div class="app" id="app" hidden>
   <header class="top">
     <span class="logo" id="logo" aria-hidden="true"></span>
     <h1 class="wordmark">MOON</h1>
+    <div class="who"><span>Signed in as <strong id="who"></strong></span><button class="link" type="button" data-action="sign-out">Sign out</button></div>
   </header>
 
   <aside class="side" aria-label="Goals, menu and activities">
@@ -248,6 +305,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
       <div class="sec-head"><h2 class="eyebrow" id="dataH">Your data</h2></div>
       <div class="data-actions">
         <button class="btn" type="button" data-action="open-sync">Sync with GitHub</button>
+        <button class="btn" type="button" data-action="open-pw">Change password</button>
         <button class="btn" type="button" data-action="export">Export backup</button>
         <label class="btn" for="importFile">Import backup</label>
         <input type="file" id="importFile" accept="application/json,.json" class="sr">
@@ -263,6 +321,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
         <button class="btn" type="button" data-action="prev-week" aria-label="Previous week">&larr; Prev</button>
         <button class="btn" type="button" data-action="this-week">Today</button>
         <button class="btn" type="button" data-action="next-week" aria-label="Next week">Next &rarr;</button>
+        <button class="btn" type="button" data-action="week-summary">Week summary</button>
       </div>
     </div>
     <div class="week-sum" id="weekSummary"></div>
@@ -303,22 +362,49 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
   </form>
 </dialog>
 
+<dialog id="sumDlg" aria-labelledby="sumTitle">
+  <div class="dlg">
+    <h2 id="sumTitle">Week summary</h2>
+    <div class="sum-body" id="sumBody"></div>
+    <textarea id="sumText" readonly hidden aria-label="Summary text to copy"></textarea>
+    <p class="hint" id="sumNote" role="status"></p>
+    <div class="dlg-actions">
+      <button class="btn" type="button" data-action="copy-summary">Copy as text</button>
+      <button class="btn primary" type="button" data-action="close-summary">Close</button>
+    </div>
+  </div>
+</dialog>
+
 <dialog id="syncDlg" aria-labelledby="syncH">
   <form class="dlg" id="syncForm" novalidate>
     <h2 id="syncH">Sync with GitHub</h2>
-    <p class="hint">MOON saves your data as one file next to the app in your GitHub repository, so every machine shows the same week. Set this up once on each machine. The file is as public as the rest of the site.</p>
+    <p class="hint">MOON saves an encrypted copy of your account in your site repository, so you can sign in from any machine. The file is unreadable without your password. Do this on each machine where you want changes to be saved to GitHub.</p>
     <ol class="steps">
       <li>In GitHub, open Settings, Developer settings, Fine-grained tokens. Make a token that can reach only your site repository, with Contents set to Read and write.</li>
-      <li>Paste it below. The repository and file are already filled in.</li>
+      <li>Paste it below. The token stays on this device, encrypted.</li>
     </ol>
     <div class="field"><label for="sync-repo">Repository</label><input type="text" id="sync-repo" autocomplete="off" spellcheck="false"></div>
     <div class="field"><label for="sync-token">Access token</label><input type="password" id="sync-token" autocomplete="off" spellcheck="false"></div>
-    <div class="field"><label for="sync-path">File path</label><input type="text" id="sync-path" autocomplete="off" spellcheck="false"></div>
     <p class="err" id="syncErr" role="alert" hidden></p>
     <div class="dlg-actions">
       <button class="btn" type="button" data-action="sync-off">Turn off sync</button>
       <button class="btn" type="button" data-action="close-sync">Cancel</button>
       <button class="btn primary" type="submit" id="syncSave">Save and sync</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="pwDlg" aria-labelledby="pwH">
+  <form class="dlg" id="pwForm" novalidate>
+    <h2 id="pwH">Change password</h2>
+    <div class="field"><label for="pw-cur">Current password</label><input type="password" id="pw-cur" autocomplete="current-password"></div>
+    <div class="field"><label for="pw-new">New password</label><input type="password" id="pw-new" autocomplete="new-password"></div>
+    <div class="field"><label for="pw-new2">New password again</label><input type="password" id="pw-new2" autocomplete="new-password"></div>
+    <p class="hint">Other machines pick up the new password the next time you sign in there. Use at least 10 characters.</p>
+    <p class="err" id="pwErr" role="alert" hidden></p>
+    <div class="dlg-actions">
+      <button class="btn" type="button" data-action="close-pw">Cancel</button>
+      <button class="btn primary" type="submit" id="pwSave">Change password</button>
     </div>
   </form>
 </dialog>
@@ -330,9 +416,9 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
 const WEEK_START = 1; // 0 = Sunday, 1 = Monday
 const KEY = 'moon.v1';
 const LEVELS = [
-  { id: 'green', cls: 'g', label: 'Green', hint: 'Steady. You have room to do more.' },
-  { id: 'yellow', cls: 'y', label: 'Yellow', hint: 'Stretched. Keep it small and kind.' },
-  { id: 'red', cls: 'r', label: 'Red', hint: 'Low. Only the basics and getting support.' }
+  { id: 'green', cls: 'g', label: 'Green', hint: 'What sounds like fun' },
+  { id: 'yellow', cls: 'y', label: 'Yellow', hint: 'Let’s make some progress' },
+  { id: 'red', cls: 'r', label: 'Red', hint: 'You can do this' }
 ];
 const LV = Object.fromEntries(LEVELS.map(l => [l.id, l]));
 
@@ -381,6 +467,7 @@ function normalize(s) {
   s = s && typeof s === 'object' ? s : {};
   const menu = s.menu && typeof s.menu === 'object' ? s.menu : {};
   return {
+    name: typeof s.name === 'string' ? s.name : '',
     goals: Array.isArray(s.goals) ? s.goals : [],
     menu: { green: menu.green || [], yellow: menu.yellow || [], red: menu.red || [] },
     activities: Array.isArray(s.activities) ? s.activities : [],
@@ -410,120 +497,166 @@ function seed() {
     ]
   });
 }
-function loadLocal() {
-  try { const raw = localStorage.getItem(KEY); return raw ? normalize(JSON.parse(raw)) : null; } catch { return null; }
-}
-let state = loadLocal() || seed();
+let state = null;
 let view = today();
-let mode = 'local';       // local | server (the included server.js) | github
-let syncState = 'local';  // local | synced | error
-let syncMsg = '';
-let saveTimer = 0;
-let ghCfg = (() => {
-  try { const c = JSON.parse(localStorage.getItem('moon.sync') || 'null'); return c && c.repo && c.token ? c : null; } catch { return null; }
-})();
-let ghSha = null, ghBusy = false, ghDirty = false, pendingSave = false;
-if (ghCfg) mode = 'github';
 
+/* ---------- accounts and encryption ----------
+   Each account is a name and password. The password never leaves the browser. It is stretched
+   into an AES key (PBKDF2), and everything saved, on this device or in GitHub, is ciphertext. */
+const ITER = 600000;
+const REPO_DEFAULT = location.hostname.endsWith('.github.io')
+  ? `${location.hostname.split('.')[0]}/${location.hostname}` : 'kevincstowe/kevincstowe.github.io';
+const DATA_DIR = 'moon/data/';
+const MIN_PW = 10;
+const enc = new TextEncoder(), dec = new TextDecoder();
+const toB64 = buf => {
+  const b = buf instanceof Uint8Array ? buf : new Uint8Array(buf);
+  let s = '';
+  for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
+  return btoa(s);
+};
+const fromB64 = s => Uint8Array.from(atob(s.replace(/\s/g, '')), c => c.charCodeAt(0));
+const b64enc = str => toB64(enc.encode(str));
+const b64dec = b64 => dec.decode(fromB64(b64));
+const normName = n => n.trim().toLowerCase().replace(/\s+/g, ' ');
+async function accountId(name) {
+  const h = await crypto.subtle.digest('SHA-256', enc.encode('moon:' + normName(name)));
+  return [...new Uint8Array(h)].slice(0, 12).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+async function deriveKey(password, saltB64, iter) {
+  const base = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: fromB64(saltB64), iterations: iter, hash: 'SHA-256' },
+    base, { name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']);
+}
+async function seal(obj, s) {
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, s.key, enc.encode(JSON.stringify(obj)));
+  return { v: 1, iter: s.iter, salt: s.salt, iv: toB64(iv), ct: toB64(ct), updated: obj.updatedAt || 0 };
+}
+async function unseal(env, key) {
+  const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: fromB64(env.iv) }, key, fromB64(env.ct));
+  return JSON.parse(dec.decode(pt));
+}
+const newSalt = () => toB64(crypto.getRandomValues(new Uint8Array(16)));
+
+let session = null; // { aid, name, key, salt, iter }
+const ENV_KEY = aid => `moon.acct.${aid}`;
+const SYNC_KEY = aid => `moon.sync.${aid}`;
+const SESSION_KEY = 'moon.session';
+const readJSON = (store, k) => { try { return JSON.parse(store.getItem(k) || 'null'); } catch { return null; } };
+
+async function rememberSession(keep) {
+  const rec = JSON.stringify({ aid: session.aid, name: session.name, key: toB64(await crypto.subtle.exportKey('raw', session.key)), salt: session.salt, iter: session.iter });
+  try {
+    sessionStorage.setItem(SESSION_KEY, rec);
+    if (keep) localStorage.setItem(SESSION_KEY, rec); else localStorage.removeItem(SESSION_KEY);
+  } catch {}
+}
+function forgetSession() { try { sessionStorage.removeItem(SESSION_KEY); localStorage.removeItem(SESSION_KEY); } catch {} }
+async function restoreSession() {
+  const rec = readJSON(sessionStorage, SESSION_KEY) || readJSON(localStorage, SESSION_KEY);
+  if (!rec) return false;
+  try {
+    const key = await crypto.subtle.importKey('raw', fromB64(rec.key), 'AES-GCM', true, ['encrypt', 'decrypt']);
+    const env = readJSON(localStorage, ENV_KEY(rec.aid));
+    if (!env) throw new Error('no data');
+    state = normalize(await unseal(env, key));
+    session = { aid: rec.aid, name: rec.name, key, salt: rec.salt, iter: rec.iter };
+    return true;
+  } catch { forgetSession(); return false; }
+}
+
+/* Local copy: always saved, always encrypted. */
+let lastEnv = null, saveChain = Promise.resolve();
+function saveLocal() {
+  saveChain = saveChain.then(async () => {
+    if (!session || !state) return;
+    lastEnv = await seal(state, session);
+    try { localStorage.setItem(ENV_KEY(session.aid), JSON.stringify(lastEnv)); } catch {}
+  }).catch(() => {});
+  return saveChain;
+}
+
+/* ---------- optional GitHub sync: the encrypted file in your site repo ---------- */
+let ghCfg = null; // { repo, token }, kept on this device, encrypted with your key
+let syncState = 'local', syncMsg = '', ghSha = null, ghBusy = false, ghDirty = false, pendingSave = false, saveTimer = 0;
+
+async function loadSyncCfg() {
+  ghCfg = null; ghSha = null; syncState = 'local';
+  const env = readJSON(localStorage, SYNC_KEY(session.aid));
+  if (!env) return;
+  try { const c = await unseal(env, session.key); if (c && c.repo && c.token) ghCfg = c; } catch {}
+}
+async function saveSyncCfg() {
+  try {
+    if (ghCfg) localStorage.setItem(SYNC_KEY(session.aid), JSON.stringify(await seal(ghCfg, session)));
+    else localStorage.removeItem(SYNC_KEY(session.aid));
+  } catch {}
+}
 function setStatus() {
   const el = $('#status');
-  if (mode === 'github') {
-    el.textContent = syncState === 'error'
-      ? `GitHub sync problem: ${syncMsg || 'could not reach GitHub'}. Changes are saved on this device.`
-      : `Synced to GitHub (${ghCfg.repo}).`;
-  } else if (mode === 'server') {
-    el.textContent = syncState === 'error'
-      ? 'Could not reach your server. Changes are saved on this device and will sync when it is back.'
-      : 'Synced to your server.';
-  } else {
-    el.textContent = 'Saved in this browser only. Use Sync with GitHub to share it across machines, or Export backup to move it by hand.';
-  }
+  if (!ghCfg) el.textContent = 'Saved encrypted on this device. Use Sync with GitHub to keep an encrypted copy on your site and open it on other machines.';
+  else if (syncState === 'error') el.textContent = `GitHub sync problem: ${syncMsg || 'could not reach GitHub'}. Changes are saved on this device.`;
+  else el.textContent = 'Saved encrypted on this device and synced to GitHub.';
 }
 function persist() {
   state.updatedAt = Date.now();
-  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
+  saveLocal();
   clearTimeout(saveTimer);
   pendingSave = true;
   // Every GitHub save is a commit to your site repo, so wait for a quiet moment before saving.
-  saveTimer = setTimeout(push, mode === 'github' ? 4000 : 400);
+  saveTimer = setTimeout(push, 4000);
 }
-async function pushServer() {
-  if (mode !== 'server') return;
-  try {
-    const r = await fetch('api/state', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(state) });
-    syncState = r.ok ? 'synced' : 'error';
-  } catch { syncState = 'error'; }
-  setStatus();
+const ghHeaders = token => ({ Accept: 'application/vnd.github+json', ...(token ? { Authorization: `Bearer ${token}` } : {}) });
+const ghFileUrl = (repo, aid) => `https://api.github.com/repos/${repo}/contents/${(DATA_DIR + aid + '.json').split('/').map(encodeURIComponent).join('/')}`;
+const ghFail = msg => { syncState = 'error'; syncMsg = msg; };
+async function ghGet(repo, aid, token) {
+  const r = await fetch(ghFileUrl(repo, aid), { headers: ghHeaders(token), cache: 'no-store' });
+  if (r.status === 404) return { status: 404 };
+  if (!r.ok) return { status: r.status };
+  const j = await r.json();
+  return { status: 200, env: JSON.parse(b64dec(j.content)), sha: j.sha };
 }
-async function pullServer() {
-  try {
-    const r = await fetch('api/state', { cache: 'no-store' });
-    if (!r.ok) throw new Error('no server');
-    const remote = await r.json();
-    mode = 'server'; syncState = 'synced';
-    if (remote && remote.updatedAt && remote.updatedAt > (state.updatedAt || 0)) {
-      state = normalize(remote);
-      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
-      render();
-    } else if (state.updatedAt && state.updatedAt > (remote.updatedAt || 0)) {
-      await pushServer();
-    }
-  } catch { mode = 'local'; }
-  setStatus();
-}
-
-/* ---------- optional GitHub sync: one JSON file in a private repo you own ---------- */
-const b64enc = str => {
-  const bytes = new TextEncoder().encode(str);
-  let bin = '';
-  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
-  return btoa(bin);
-};
-const b64dec = b64 => new TextDecoder().decode(Uint8Array.from(atob(b64.replace(/\s/g, '')), c => c.charCodeAt(0)));
-const ghRepoUrl = () => `https://api.github.com/repos/${ghCfg.repo}`;
-const ghFileUrl = () => `${ghRepoUrl()}/contents/${ghCfg.path.split('/').map(encodeURIComponent).join('/')}`;
-const ghHeaders = () => ({ Authorization: `Bearer ${ghCfg.token}`, Accept: 'application/vnd.github+json' });
-const ghFail = (msg) => { syncState = 'error'; syncMsg = msg; };
 
 // Returns true when it replaced local data with newer data from GitHub.
 async function pullGithub(allowPush = true) {
+  if (!ghCfg || !session) return false;
   try {
-    const r = await fetch(ghFileUrl(), { headers: ghHeaders(), cache: 'no-store' });
-    if (r.status === 404) {
-      const repo = await fetch(ghRepoUrl(), { headers: ghHeaders(), cache: 'no-store' });
+    const g = await ghGet(ghCfg.repo, session.aid, ghCfg.token);
+    if (g.status === 404) {
+      const repo = await fetch(`https://api.github.com/repos/${ghCfg.repo}`, { headers: ghHeaders(ghCfg.token), cache: 'no-store' });
       if (!repo.ok) ghFail('repository not found, or the token cannot see it');
-      else {
-        ghSha = null; syncState = 'synced';
-        if (allowPush && state.updatedAt) await pushGithub(false);
-      }
-    } else if (r.status === 401 || r.status === 403) {
+      else { ghSha = null; syncState = 'synced'; if (allowPush && state.updatedAt) await pushGithub(false); }
+    } else if (g.status === 401 || g.status === 403) {
       ghFail('GitHub rejected the token');
-    } else if (!r.ok) {
-      ghFail(`GitHub returned ${r.status}`);
+    } else if (g.status !== 200) {
+      ghFail(`GitHub returned ${g.status}`);
     } else {
-      const j = await r.json();
-      ghSha = j.sha; syncState = 'synced';
-      const remote = JSON.parse(b64dec(j.content));
-      if ((remote.updatedAt || 0) > (state.updatedAt || 0)) {
-        state = normalize(remote);
-        try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
-        render(); setStatus();
-        return true;
+      ghSha = g.sha; syncState = 'synced';
+      if (g.env.salt !== session.salt) {
+        ghFail('the password was changed on another machine. Sign out and sign in again');
+      } else if ((g.env.updated || 0) > (state.updatedAt || 0)) {
+        let next = null;
+        try { next = normalize(await unseal(g.env, session.key)); } catch { ghFail('the synced file could not be read'); }
+        if (next) { state = next; await saveLocal(); render(); setStatus(); return true; }
+      } else if (allowPush && (state.updatedAt || 0) > (g.env.updated || 0)) {
+        await pushGithub(false);
       }
-      if (allowPush && (state.updatedAt || 0) > (remote.updatedAt || 0)) await pushGithub(false);
     }
   } catch { ghFail('could not reach GitHub'); }
   setStatus();
   return false;
 }
 async function pushGithub(retry = true) {
+  if (!ghCfg || !session) return;
   if (ghBusy) { ghDirty = true; return; }
   ghBusy = true;
   let conflict = false;
   try {
-    const body = { message: 'MOON sync', content: b64enc(JSON.stringify(state)) };
+    await saveChain;
+    const body = { message: 'MOON sync', content: b64enc(JSON.stringify(lastEnv || await seal(state, session))) };
     if (ghSha) body.sha = ghSha;
-    const r = await fetch(ghFileUrl(), { method: 'PUT', headers: { ...ghHeaders(), 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const r = await fetch(ghFileUrl(ghCfg.repo, session.aid), { method: 'PUT', headers: { ...ghHeaders(ghCfg.token), 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     if (r.ok) { ghSha = (await r.json()).content.sha; syncState = 'synced'; }
     else if (r.status === 409 || r.status === 422) conflict = true;
     else if (r.status === 401 || r.status === 403 || r.status === 404) ghFail('GitHub refused the save. The token needs Contents: Read and write on that repository');
@@ -538,17 +671,103 @@ async function pushGithub(retry = true) {
   if (ghDirty) { ghDirty = false; return pushGithub(); }
   setStatus();
 }
-const pull = () => mode === 'github' ? pullGithub() : pullServer();
-const push = () => { pendingSave = false; return mode === 'github' ? pushGithub() : pushServer(); };
+const pull = () => ghCfg ? pullGithub() : Promise.resolve(false);
+const push = () => { pendingSave = false; return ghCfg ? pushGithub() : Promise.resolve(); };
 
 function openSync() {
-  $('#sync-repo').value = ghCfg ? ghCfg.repo : 'kevincstowe/kevincstowe.github.io';
-  $('#sync-path').value = ghCfg ? ghCfg.path : 'moon/state.json';
+  $('#sync-repo').value = ghCfg ? ghCfg.repo : REPO_DEFAULT;
   $('#sync-token').value = '';
   $('#sync-token').placeholder = ghCfg ? 'Saved on this device. Leave blank to keep it.' : 'github_pat_...';
   $('#syncErr').hidden = true;
   $('#syncDlg').showModal();
 }
+
+/* ---------- sign in, create account, change password ---------- */
+const BAD_LOGIN = 'That name and password do not match an account. Check both, or create an account.';
+async function doLogin(name, pw, keep) {
+  const aid = await accountId(name);
+  const local = readJSON(localStorage, ENV_KEY(aid));
+  let remote = null;
+  try { const g = await ghGet(REPO_DEFAULT, aid, null); if (g.status === 200) remote = g.env; } catch {}
+  const env = [local, remote].filter(Boolean).sort((a, b) => (b.updated || 0) - (a.updated || 0))[0];
+  if (!env) throw new Error(BAD_LOGIN);
+  let key, data;
+  try { key = await deriveKey(pw, env.salt, env.iter || ITER); data = normalize(await unseal(env, key)); } catch { throw new Error(BAD_LOGIN); }
+  session = { aid, name: data.name || name.trim(), key, salt: env.salt, iter: env.iter || ITER };
+  state = data;
+  try { localStorage.setItem(ENV_KEY(aid), JSON.stringify(env)); } catch {}
+  await loadSyncCfg();
+  await rememberSession(keep);
+}
+async function doSignup(name, pw, keep, bringLegacy) {
+  name = name.trim();
+  if (name.length < 2) throw new Error('Pick a name with at least 2 characters.');
+  if (pw.length < MIN_PW) throw new Error(`Use a password of at least ${MIN_PW} characters. A few random words works well.`);
+  const aid = await accountId(name);
+  const taken = new Error('That name is already taken. Pick another, or sign in if it is yours.');
+  if (readJSON(localStorage, ENV_KEY(aid))) throw taken;
+  let remoteTaken = false;
+  try { remoteTaken = (await ghGet(REPO_DEFAULT, aid, null)).status === 200; } catch {}
+  if (remoteTaken) throw taken;
+  const salt = newSalt();
+  const key = await deriveKey(pw, salt, ITER);
+  session = { aid, name, key, salt, iter: ITER };
+  const legacy = bringLegacy ? readJSON(localStorage, 'moon.v1') : null;
+  state = legacy ? normalize(legacy) : seed();
+  state.name = name; state.updatedAt = Date.now();
+  await saveLocal();
+  ghCfg = null; ghSha = null; syncState = 'local';
+  if (legacy) {
+    const old = readJSON(localStorage, 'moon.sync');
+    if (old && old.token) { ghCfg = { repo: old.repo, token: old.token }; await saveSyncCfg(); }
+    try { localStorage.removeItem('moon.v1'); localStorage.removeItem('moon.sync'); } catch {}
+  }
+  await rememberSession(keep);
+}
+async function doChangePassword(current, next) {
+  const cur = await deriveKey(current, session.salt, session.iter);
+  const a = toB64(await crypto.subtle.exportKey('raw', cur));
+  const b = toB64(await crypto.subtle.exportKey('raw', session.key));
+  if (a !== b) throw new Error('The current password is not right.');
+  if (next.length < MIN_PW) throw new Error(`Use a new password of at least ${MIN_PW} characters.`);
+  const salt = newSalt();
+  const key = await deriveKey(next, salt, ITER);
+  session = { ...session, key, salt, iter: ITER };
+  state.updatedAt = Date.now();
+  await saveLocal(); await saveSyncCfg();
+  await rememberSession(!!readJSON(localStorage, SESSION_KEY));
+  if (ghCfg) await pushGithub(false);
+}
+async function signOut() {
+  clearTimeout(saveTimer);
+  if (pendingSave && ghCfg) await push();
+  forgetSession();
+  session = null; state = null; ghCfg = null; ghSha = null; lastEnv = null;
+  document.querySelectorAll('dialog[open]').forEach(d => d.close());
+  showAuth('login');
+}
+
+/* ---------- sign-in screen ---------- */
+function authTab(tab) {
+  $('#loginForm').hidden = tab !== 'login';
+  $('#signupForm').hidden = tab !== 'signup';
+  document.querySelectorAll('[data-action="auth-tab"]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
+  $('#authErr').hidden = true;
+}
+function showAuth(tab = 'login') {
+  $('#app').hidden = true; $('#auth').hidden = false;
+  ['#li-pass', '#su-pass', '#su-pass2'].forEach(s => { $(s).value = ''; });
+  $('#legacyRow').hidden = !readJSON(localStorage, 'moon.v1');
+  authTab(tab);
+  $(tab === 'login' ? '#li-name' : '#su-name').focus();
+}
+function enterApp() {
+  $('#auth').hidden = true; $('#app').hidden = false;
+  $('#who').textContent = session.name;
+  view = today();
+  render(); setStatus(); pull();
+}
+function authError(msg) { const el = $('#authErr'); el.textContent = msg; el.hidden = false; }
 
 /* ---------- goals ---------- */
 function goalPoints(id) {
@@ -565,16 +784,10 @@ function dueOn(date) {
     if (a) out.push({ a, done: true });
   }
   if (date < t) return out;
+  // An activity shows on its due date and on every later day until it is checked off.
   for (const a of state.activities) {
     if (state.log.some(l => l.act === a.id && l.date === date)) continue;
-    let n = a.nextDue;
-    if (n < t) {
-      if (date === t) out.push({ a, done: false, overdue: true, was: n });
-      continue;
-    }
-    let guard = 0;
-    while (n < date && guard++ < 2000) n = addEvery(n, a.every, a.unit);
-    if (n === date) out.push({ a, done: false });
+    if (a.nextDue <= date) out.push({ a, done: false, late: a.nextDue < date, overdue: a.nextDue < t, was: a.nextDue });
   }
   return out;
 }
@@ -636,7 +849,7 @@ function dayHtml(date, t) {
   const dueHtml = due.length ? due.map(o => `<label class="todo ${o.done ? 'done' : ''}" for="act-${date}-${o.a.id}">
       <input type="checkbox" id="act-${date}-${o.a.id}" data-act="${o.a.id}" data-date="${date}" ${o.done ? 'checked' : ''}>
       <span class="t">${esc(o.a.name)}</span>
-      ${o.overdue ? `<span class="tag over">Overdue &middot; was ${fmtShort(o.was)}</span>` : `<span class="tag">${freq(o.a)}</span>`}
+      ${o.overdue ? `<span class="tag over">Overdue &middot; was ${fmtShort(o.was)}</span>` : o.late ? `<span class="tag">Due since ${fmtShort(o.was)}</span>` : `<span class="tag">${freq(o.a)}</span>`}
     </label>`).join('') : '<p class="none">Nothing due.</p>';
 
   let menuHtml;
@@ -666,13 +879,14 @@ function dayHtml(date, t) {
       </div>
       <div class="day-actions">
         <fieldset class="levels"><legend class="sr">How was ${fmtLong(date)}</legend>${levels}</fieldset>
+        ${(lvl || day.finished || (day.menuDone && day.menuDone.length) || state.log.some(l => l.date === date)) ? `<button class="link" type="button" id="clr-${date}" data-action="clear-day" data-date="${date}" aria-label="Clear the color and everything checked for ${fmtLong(date)}">Clear day</button>` : ''}
         ${day.finished ? '<span class="finished-badge">Finished</span>' : ''}
         <button class="btn ${day.finished ? '' : 'primary'}" type="button" data-action="finish" data-date="${date}">${day.finished ? 'Edit day' : 'Finish day'}</button>
       </div>
     </div>
     <div class="day-body">
       <div><span class="eyebrow">Due</span>${dueHtml}</div>
-      <div><span class="eyebrow">${lvl ? `${LV[lvl].label} menu` : 'Menu'}</span>${menuHtml}</div>
+      <div><span class="eyebrow">${lvl ? `${LV[lvl].label} menu` : 'Menu'}</span>${lvl ? `<span class="sub">${LV[lvl].hint}</span>` : ''}${menuHtml}</div>
     </div>
     ${fin}
   </article>`;
@@ -700,7 +914,7 @@ let menuTab = 'green';
 function renderMenuDlg() {
   const l = LV[menuTab];
   $('#menuTabs').innerHTML = LEVELS.map(x => `<button class="tab ${x.cls}" type="button" role="tab" data-action="tab" data-level="${x.id}" aria-selected="${x.id === menuTab}"><span class="dot ${x.cls}"></span>${x.label}</button>`).join('');
-  $('#menuHint').textContent = `${l.label}: ${l.hint}`;
+  $('#menuHint').textContent = l.hint;
   const items = state.menu[menuTab];
   $('#menuList').innerHTML = items.length
     ? items.map(it => `<li class="menu-item"><span>${esc(it.text)}</span><button class="x" type="button" data-action="rm-menu" data-id="${it.id}" aria-label="Remove ${esc(it.text)}">&times;</button></li>`).join('')
@@ -732,10 +946,97 @@ function openFinish(date) {
   $('#finishDlg').showModal();
 }
 
+/* ---------- week summary ---------- */
+let sumText = '';
+function goalPct(g) { return g.done ? 100 : Math.min(100, Math.round(goalPoints(g.id) / g.target * 100)); }
+function weekData(ws) {
+  const dates = Array.from({ length: 7 }, (_, i) => addDays(ws, i));
+  const rows = dates.map(date => ({ date, day: state.days[date] || {} }));
+  const counts = { green: 0, yellow: 0, red: 0, none: 0 };
+  rows.forEach(r => { counts[r.day.level || 'none']++; });
+  const finished = rows.filter(r => r.day.finished).length;
+  const actMap = new Map();
+  state.log.filter(l => dates.includes(l.date)).forEach(l => {
+    const a = state.activities.find(x => x.id === l.act);
+    if (!a) return;
+    if (!actMap.has(a.id)) actMap.set(a.id, { name: a.name, dates: [] });
+    actMap.get(a.id).dates.push(l.date);
+  });
+  const goals = state.goals.map(g => ({
+    g, pct: goalPct(g),
+    gained: rows.reduce((s, r) => s + ((r.day.finished && r.day.goalPts && r.day.goalPts[g.id]) || 0), 0)
+  }));
+  const menuMap = new Map();
+  rows.forEach(r => {
+    const lvl = r.day.level;
+    (r.day.menuDone || []).forEach(id => {
+      const it = (state.menu[lvl] || []).find(i => i.id === id);
+      if (!it) return;
+      const key = lvl + '|' + it.text;
+      if (!menuMap.has(key)) menuMap.set(key, { lvl, text: it.text, n: 0 });
+      menuMap.get(key).n++;
+    });
+  });
+  return { dates, rows, counts, finished, acts: [...actMap.values()], goals, menu: [...menuMap.values()] };
+}
+function openSummary() {
+  const ws = weekStart(view);
+  const w = weekData(ws);
+  const a = parse(ws), b = parse(addDays(ws, 6));
+  const range = `${a.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} – ${b.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+  const wd = d => parse(d).toLocaleDateString('en-US', { weekday: 'short' });
+  const c = w.counts;
+  const tally = `${c.green} green, ${c.yellow} yellow, ${c.red} red${c.none ? `, ${c.none} not set` : ''}. ${w.finished} of 7 days finished.`;
+  $('#sumTitle').textContent = `Week of ${range}`;
+
+  const strip = w.rows.map(r => {
+    const l = r.day.level ? LV[r.day.level] : null;
+    return `<div class="sum-cell ${l ? l.cls : ''}"><span class="sum-dow">${wd(r.date)}</span><span class="sum-lvl">${l ? l.label : 'Not set'}</span>`
+      + `<span class="sum-fin">${r.day.finished ? '<span aria-hidden="true">✓</span><span class="sr">Finished</span>' : ''}</span></div>`;
+  }).join('');
+
+  const done = w.rows.filter(r => r.day.finished);
+  const doneHtml = done.length ? `<ul>${done.map(r => {
+    const chips = state.goals.filter(g => r.day.goalPts && r.day.goalPts[g.id] > 0).map(g => `<span class="chip">${esc(g.name)} +${r.day.goalPts[g.id]}</span>`).join(' ');
+    return `<li><strong>${wd(r.date)}</strong> ${r.day.accomplished ? esc(r.day.accomplished) : '<span class="none">Finished, no note.</span>'}${chips ? `<div class="chips">${chips}</div>` : ''}</li>`;
+  }).join('')}</ul>` : '<p class="none">No finished days yet this week.</p>';
+
+  const actsHtml = w.acts.length ? `<ul>${w.acts.map(x =>
+    `<li>${esc(x.name)}${x.dates.length > 1 ? ` ×${x.dates.length}` : ''}<span class="act-meta">${x.dates.map(wd).join(', ')}</span></li>`).join('')}</ul>` : '<p class="none">No activities checked off.</p>';
+
+  const goalsHtml = w.goals.length ? w.goals.map(x => `<div class="sum-goal"><div class="sum-goal-top"><span class="goal-name">${esc(x.g.name)}</span>`
+    + `<span class="act-meta">${x.gained ? `+${x.gained} this week` : 'No movement'} · ${x.pct}% overall</span></div>`
+    + `<div class="scale" role="progressbar" aria-label="${esc(x.g.name)} progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${x.pct}"><i style="width:${x.pct}%"></i></div></div>`).join('') : '<p class="none">No goals yet.</p>';
+
+  const menuHtml = w.menu.length ? `<ul>${w.menu.map(m =>
+    `<li><span class="dot ${LV[m.lvl].cls}"></span> ${esc(m.text)}${m.n > 1 ? ` ×${m.n}` : ''}</li>`).join('')}</ul>` : '<p class="none">No menu items checked off.</p>';
+
+  $('#sumBody').innerHTML = `
+    <div class="sum-sec"><div class="sum-strip" role="list">${strip}</div><p class="sum-line">${tally}</p></div>
+    <div class="sum-sec"><h3 class="eyebrow">Accomplished</h3>${doneHtml}</div>
+    <div class="sum-sec"><h3 class="eyebrow">Activities done</h3>${actsHtml}</div>
+    <div class="sum-sec"><h3 class="eyebrow">Goals</h3>${goalsHtml}</div>
+    <div class="sum-sec"><h3 class="eyebrow">From the menu</h3>${menuHtml}</div>`;
+
+  const lines = [`MOON, week of ${range}, ${b.getFullYear()}`, '', 'Days: ' + w.rows.map(r => `${wd(r.date)} ${r.day.level ? LV[r.day.level].label : 'not set'}`).join(', '), tally];
+  if (done.length) {
+    lines.push('', 'Accomplished');
+    done.forEach(r => lines.push(`${wd(r.date)}: ${r.day.accomplished || 'finished, no note'}`));
+  }
+  if (w.acts.length) lines.push('', 'Activities done', ...w.acts.map(x => `${x.name}${x.dates.length > 1 ? ` x${x.dates.length}` : ''} (${x.dates.map(wd).join(', ')})`));
+  if (w.goals.length) lines.push('', 'Goals', ...w.goals.map(x => `${x.g.name}: ${x.gained ? `+${x.gained} this week` : 'no movement'}, ${x.pct}% overall`));
+  if (w.menu.length) lines.push('', 'From the menu', ...w.menu.map(m => `${LV[m.lvl].label}: ${m.text}${m.n > 1 ? ` x${m.n}` : ''}`));
+  sumText = lines.join('\n');
+
+  $('#sumText').hidden = true;
+  $('#sumNote').textContent = '';
+  $('#sumDlg').showModal();
+}
+
 /* ---------- events ---------- */
-function armed(btn) {
+function armed(btn, text = 'Remove?') {
   if (btn.dataset.armed) return true;
-  btn.dataset.armed = '1'; btn.dataset.label = btn.innerHTML; btn.textContent = 'Remove?'; btn.classList.add('armed');
+  btn.dataset.armed = '1'; btn.dataset.label = btn.innerHTML; btn.textContent = text; btn.classList.add('armed');
   setTimeout(() => {
     if (btn.isConnected) { delete btn.dataset.armed; btn.innerHTML = btn.dataset.label; btn.classList.remove('armed'); }
   }, 3000);
@@ -752,13 +1053,36 @@ document.addEventListener('click', e => {
   else if (act === 'cancel-finish') $('#finishDlg').close();
   else if (act === 'open-menu') { renderMenuDlg(); $('#menuDlg').showModal(); }
   else if (act === 'close-menu') $('#menuDlg').close();
+  else if (act === 'clear-day') {
+    const date = btn.dataset.date;
+    const day = state.days[date] || {};
+    const hasMore = day.finished || day.accomplished || (day.menuDone && day.menuDone.length) || state.log.some(l => l.date === date);
+    if (hasMore && !armed(btn, 'Clear all?')) return;
+    // Put back activities that were checked off on this day, so they are due again.
+    state.log.filter(l => l.date === date).forEach(e => {
+      const a = state.activities.find(x => x.id === e.act);
+      state.log.splice(state.log.indexOf(e), 1);
+      if (a && !state.log.some(l => l.act === e.act && l.date > e.date)) a.nextDue = e.prev;
+    });
+    delete state.days[date];
+    persist(); render();
+  }
+  else if (act === 'week-summary') openSummary();
+  else if (act === 'close-summary') $('#sumDlg').close();
+  else if (act === 'copy-summary') {
+    const note = $('#sumNote'), ta = $('#sumText');
+    const fallback = () => { ta.hidden = false; ta.value = sumText; ta.focus(); ta.select(); note.textContent = 'Select and copy the text below.'; };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(sumText).then(() => { ta.hidden = true; note.textContent = 'Copied.'; }).catch(fallback);
+    } else fallback();
+  }
   else if (act === 'open-sync') openSync();
   else if (act === 'close-sync') $('#syncDlg').close();
-  else if (act === 'sync-off') {
-    ghCfg = null; mode = 'local'; syncState = 'local';
-    try { localStorage.removeItem('moon.sync'); } catch {}
-    $('#syncDlg').close(); setStatus(); pullServer();
-  }
+  else if (act === 'sync-off') { ghCfg = null; ghSha = null; syncState = 'local'; saveSyncCfg(); $('#syncDlg').close(); setStatus(); }
+  else if (act === 'auth-tab') authTab(btn.dataset.tab);
+  else if (act === 'sign-out') signOut();
+  else if (act === 'open-pw') { $('#pwForm').reset(); $('#pwErr').hidden = true; $('#pwDlg').showModal(); }
+  else if (act === 'close-pw') $('#pwDlg').close();
   else if (act === 'tab') { menuTab = btn.dataset.level; renderMenuDlg(); }
   else if (act === 'rm-goal') { if (armed(btn)) { state.goals = state.goals.filter(g => g.id !== btn.dataset.id); persist(); render(); } }
   else if (act === 'toggle-goal') { const g = state.goals.find(x => x.id === btn.dataset.id); if (g) { g.done = !g.done; persist(); render(); } }
@@ -794,7 +1118,7 @@ document.addEventListener('change', e => {
     reader.onload = () => {
       try {
         const next = normalize(JSON.parse(reader.result));
-        state = next; persist(); render();
+        state = next; state.name = session.name; persist(); render();
         $('#status').textContent = 'Backup imported.';
       } catch { $('#status').textContent = 'That file could not be read as a MOON backup.'; }
       t.value = '';
@@ -855,36 +1179,77 @@ $('#syncForm').addEventListener('submit', async e => {
   e.preventDefault();
   const err = $('#syncErr');
   const repo = $('#sync-repo').value.trim().replace(/^https?:\/\/github\.com\//, '').replace(/\.git$/, '').replace(/\/+$/, '');
-  const path = ($('#sync-path').value.trim() || 'moon/state.json').replace(/^\/+/, '');
   const token = $('#sync-token').value.trim() || (ghCfg && ghCfg.token) || '';
   if (!/^[\w.-]+\/[\w.-]+$/.test(repo) || !token) {
     err.textContent = 'Enter the repository as owner/name and paste a token.'; err.hidden = false; return;
   }
-  const prev = { cfg: ghCfg, mode };
-  ghCfg = { repo, token, path }; mode = 'github'; ghSha = null;
+  const prev = ghCfg;
+  ghCfg = { repo, token }; ghSha = null; syncState = 'local';
   $('#syncSave').disabled = true;
   await pullGithub();
   $('#syncSave').disabled = false;
   if (syncState === 'error') {
     err.textContent = `Could not connect: ${syncMsg}.`; err.hidden = false;
-    ghCfg = prev.cfg; mode = prev.mode; syncState = prev.cfg ? 'synced' : 'local'; setStatus();
+    ghCfg = prev; syncState = prev ? 'synced' : 'local'; setStatus();
     return;
   }
-  try { localStorage.setItem('moon.sync', JSON.stringify(ghCfg)); } catch {}
+  await saveSyncCfg();
   err.hidden = true;
   $('#syncDlg').close();
   setStatus();
 });
 
+function busy(btn, on) {
+  btn.disabled = on;
+  if (on) { btn.dataset.label = btn.textContent; btn.textContent = 'Working...'; }
+  else if (btn.dataset.label) btn.textContent = btn.dataset.label;
+}
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = $('#loginBtn');
+  $('#authErr').hidden = true;
+  busy(btn, true);
+  try { await doLogin($('#li-name').value, $('#li-pass').value, $('#li-keep').checked); enterApp(); }
+  catch (err) { authError(err.message); }
+  busy(btn, false);
+});
+$('#signupForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = $('#signupBtn');
+  $('#authErr').hidden = true;
+  if ($('#su-pass').value !== $('#su-pass2').value) { authError('The two passwords do not match.'); return; }
+  busy(btn, true);
+  try { await doSignup($('#su-name').value, $('#su-pass').value, $('#su-keep').checked, !$('#legacyRow').hidden && $('#su-legacy').checked); enterApp(); }
+  catch (err) { authError(err.message); }
+  busy(btn, false);
+});
+$('#pwForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = $('#pwErr'), btn = $('#pwSave');
+  err.hidden = true;
+  if ($('#pw-new').value !== $('#pw-new2').value) { err.textContent = 'The two new passwords do not match.'; err.hidden = false; return; }
+  busy(btn, true);
+  try { await doChangePassword($('#pw-cur').value, $('#pw-new').value); $('#pwDlg').close(); setStatus(); }
+  catch (x) { err.textContent = x.message; err.hidden = false; }
+  busy(btn, false);
+});
+
 document.addEventListener('visibilitychange', () => {
+  if (!session) return;
   if (document.visibilityState === 'visible') { render(); pull(); }
   else if (pendingSave) { clearTimeout(saveTimer); push(); }
 });
 
-$('#act-first').value = today();
-render();
-setStatus();
-pull();
+(async () => {
+  $('#act-first').value = today();
+  $('#authLogo').innerHTML = moonSvg(today(), 'moon');
+  if (!window.crypto || !crypto.subtle) {
+    showAuth('login');
+    authError('This browser is blocking encryption on this page. Open MOON over https in a current browser.');
+    return;
+  }
+  if (await restoreSession()) { await loadSyncCfg(); enterApp(); } else showAuth('login');
+})();
 })();
 </script>
 </body>
