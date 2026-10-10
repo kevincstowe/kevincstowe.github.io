@@ -1,0 +1,891 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOON</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='9' fill='%23161d31'/%3E%3Cpath d='M10 2A8 8 0 1 1 10 18A5 8 0 1 0 10 2Z' fill='%23eef0f7'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Instrument+Serif&display=swap">
+<style>
+/* Layout: a left rail (goals, menu, activities) beside a week of day rows.
+   Each day row is a schedule line: date, level, what is due, finish. */
+:root {
+  --bg: #f2f3f8;
+  --surface: #ffffff;
+  --surface-2: #e8ebf4;
+  --line: #d6dbea;
+  --fg: #1b2136;
+  --muted: #5b6482;
+  --accent: #3d52c4;
+  --accent-fg: #ffffff;
+  --moon: #c99a2e;
+  --green: #1c7f55;
+  --green-bg: #dcf3e8;
+  --yellow: #876100;
+  --yellow-bg: #fbefc7;
+  --red: #b0303b;
+  --red-bg: #fbdde0;
+  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --font-body: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1322; --surface: #161d31; --surface-2: #1f2841; --line: #2b3554;
+    --fg: #e7eaf5; --muted: #98a2c0; --accent: #a9b8ff; --accent-fg: #0e1322;
+    --moon: #eef0f7;
+    --green: #6fd6a3; --green-bg: #17352b;
+    --yellow: #f1c95a; --yellow-bg: #3a3012;
+    --red: #f48a93; --red-bg: #40191f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1322; --surface: #161d31; --surface-2: #1f2841; --line: #2b3554;
+  --fg: #e7eaf5; --muted: #98a2c0; --accent: #a9b8ff; --accent-fg: #0e1322;
+  --moon: #eef0f7;
+  --green: #6fd6a3; --green-bg: #17352b;
+  --yellow: #f1c95a; --yellow-bg: #3a3012;
+  --red: #f48a93; --red-bg: #40191f;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 var(--font-body); }
+h1, h2, h3, p, ul { margin: 0; padding: 0; }
+ul { list-style: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.eyebrow { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+.app { max-width: 1240px; margin: 0 auto; padding-inline: 20px; padding-block: 20px 48px; display: grid; grid-template-columns: 330px minmax(0, 1fr); gap: 20px 28px; }
+.top { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; }
+.wordmark { font-family: var(--font-display); font-size: 2.2rem; letter-spacing: .16em; line-height: 1; font-weight: 400; }
+.logo { display: inline-flex; }
+.logo svg { width: 34px; height: 34px; }
+
+.side { align-self: start; position: sticky; top: 20px; max-height: calc(100vh - 40px); overflow-y: auto; display: flex; flex-direction: column; gap: 26px; padding-right: 4px; }
+.side section { display: flex; flex-direction: column; gap: 12px; }
+.side section + section { border-top: 1px solid var(--line); padding-top: 22px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.hint { font-size: .8rem; color: var(--muted); }
+.empty, .none { color: var(--muted); font-size: .88rem; }
+
+.btn { padding: 8px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.btn.wide { width: 100%; }
+.link { background: none; border: 0; padding: 0; color: var(--accent); font-size: .8rem; font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.x { background: none; border: 1px solid transparent; border-radius: 8px; color: var(--muted); padding: 2px 8px; cursor: pointer; font-size: .85rem; flex: none; }
+.x:hover { color: var(--red); border-color: var(--line); }
+.x.armed { color: var(--red); background: var(--red-bg); border-color: var(--red); font-weight: 600; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+input[type=text], input[type=number], input[type=date], select, textarea { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; min-width: 0; }
+textarea { width: 100%; min-height: 110px; resize: vertical; }
+.add { display: flex; gap: 8px; flex-wrap: wrap; }
+.add input[type=text] { flex: 1 1 140px; }
+.add input[type=number] { width: 72px; }
+.add .row { display: flex; gap: 8px; width: 100%; }
+.add .row > * { flex: 1 1 0; }
+
+.goal { display: flex; flex-direction: column; gap: 8px; }
+.goal-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.goal-name { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.scale { height: 10px; border-radius: 99px; background: var(--surface-2); position: relative; overflow: hidden; }
+.scale i { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 99px; transition: width .3s; }
+.scale::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 calc(25% - 2px), var(--bg) calc(25% - 2px) 25%); }
+.goal.fin .scale i { background: var(--green); }
+.goal-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: .8rem; color: var(--muted); }
+.goal.fin .goal-meta span { color: var(--green); font-weight: 600; }
+
+.menu-counts { display: flex; gap: 6px; flex-wrap: wrap; }
+.act { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.act-name { font-weight: 600; overflow-wrap: anywhere; }
+.act-meta { font-size: .8rem; color: var(--muted); }
+#acts, #goals { display: flex; flex-direction: column; gap: 14px; }
+
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 99px; border: 1px solid var(--line); font-size: .8rem; font-weight: 600; background: var(--surface); }
+.g { --c: var(--green); --cbg: var(--green-bg); }
+.y { --c: var(--yellow); --cbg: var(--yellow-bg); }
+.r { --c: var(--red); --cbg: var(--red-bg); }
+.dot.g, .dot.y, .dot.r { background: var(--c); }
+
+.main { min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.week-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+.week-label { font-family: var(--font-display); font-size: 1.9rem; line-height: 1.1; }
+.nav { display: flex; gap: 6px; }
+.week-sum { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .85rem; color: var(--muted); }
+.week-sum span { display: inline-flex; align-items: center; gap: 6px; }
+#week { display: flex; flex-direction: column; gap: 12px; }
+
+.day { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+.day.today { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.day-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+.day-title { display: flex; align-items: center; gap: 10px; min-width: 0; flex-wrap: wrap; }
+.dayname { font-family: var(--font-display); font-size: 1.7rem; line-height: 1; }
+.daydate { color: var(--muted); font-size: .88rem; }
+.moon { width: 20px; height: 20px; flex: none; }
+.moon-dark { fill: var(--surface-2); stroke: var(--line); stroke-width: .8; }
+.moon-lit { fill: var(--moon); }
+.today-tag { font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+.day-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.finished-badge { font-size: .75rem; font-weight: 700; color: var(--green); background: var(--green-bg); border-radius: 99px; padding: 3px 10px; }
+
+.levels { display: flex; gap: 6px; border: 0; padding: 0; margin: 0; min-width: 0; }
+.lvl { position: relative; display: inline-flex; }
+.lvl input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.lvl span { display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-weight: 600; font-size: .85rem; }
+.lvl span::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+.lvl input:checked + span { background: var(--cbg); border-color: var(--c); color: var(--c); }
+.lvl input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.day-body { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px 24px; }
+.day-body > div { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.todo { display: flex; align-items: flex-start; gap: 10px; padding: 3px 0; cursor: pointer; flex-wrap: wrap; }
+.todo input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--accent); flex: none; }
+.todo .t { min-width: 0; overflow-wrap: anywhere; }
+.todo.done .t { text-decoration: line-through; color: var(--muted); }
+.tag { font-size: .72rem; padding: 1px 8px; border-radius: 99px; background: var(--surface-2); color: var(--muted); align-self: center; }
+.tag.over { background: var(--red-bg); color: var(--red); font-weight: 600; }
+.done-note { border-top: 1px solid var(--line); padding-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.done-note p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+dialog { border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--fg); padding: 0; width: min(560px, calc(100vw - 32px)); max-height: calc(100vh - 32px); }
+dialog::backdrop { background: rgba(8, 12, 24, .6); }
+.dlg { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.dlg h2 { font-family: var(--font-display); font-size: 1.8rem; font-weight: 400; line-height: 1.1; }
+.dlg-actions { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+.field { display: flex; flex-direction: column; gap: 6px; border: 0; padding: 0; margin: 0; min-width: 0; }
+.field > label, .field > legend { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--muted); padding: 0; }
+.err { color: var(--red); font-size: .88rem; }
+.gp { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; padding: 6px 0; border-top: 1px solid var(--line); }
+.gp-name { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.seg { display: flex; gap: 4px; }
+.seg label { position: relative; display: inline-flex; }
+.seg input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.seg span { padding: 4px 11px; border-radius: 8px; border: 1px solid var(--line); font-size: .82rem; font-weight: 600; color: var(--muted); }
+.seg input:checked + span { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+.seg input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tab { padding: 7px 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; color: var(--muted); }
+.tab[aria-selected="true"] { background: var(--cbg); border-color: var(--c); color: var(--c); }
+.tab .dot { background: var(--c); }
+.menu-list { display: flex; flex-direction: column; gap: 2px; max-height: 40vh; overflow-y: auto; }
+.menu-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 0; border-top: 1px solid var(--line); }
+.menu-item span { min-width: 0; overflow-wrap: anywhere; }
+
+.status { font-size: .78rem; color: var(--muted); }
+.steps { padding-left: 1.3em; display: flex; flex-direction: column; gap: 6px; font-size: .88rem; color: var(--muted); }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .85em; background: var(--surface-2); padding: 1px 5px; border-radius: 5px; }
+.data-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+@media (max-width: 860px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .side { position: static; max-height: none; overflow: visible; order: 2; padding-right: 0; }
+  .main { order: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <span class="logo" id="logo" aria-hidden="true"></span>
+    <h1 class="wordmark">MOON</h1>
+  </header>
+
+  <aside class="side" aria-label="Goals, menu and activities">
+    <section aria-labelledby="goalsH">
+      <div class="sec-head"><h2 class="eyebrow" id="goalsH">Goals</h2></div>
+      <ul id="goals"></ul>
+      <form id="goalForm" class="add">
+        <label class="sr" for="goal-name">New goal</label>
+        <input type="text" id="goal-name" placeholder="A long-term goal" maxlength="120" required autocomplete="off">
+        <label class="sr" for="goal-target">Points to finish</label>
+        <input type="number" id="goal-target" value="20" min="1" max="500" title="Points needed to finish">
+        <button class="btn" type="submit">Add</button>
+      </form>
+      <p class="hint">When you finish a day, mark how far each goal moved: small is 1 point, solid is 2, big is 3. A goal is finished at its point total.</p>
+    </section>
+
+    <section aria-labelledby="menuH">
+      <div class="sec-head"><h2 class="eyebrow" id="menuH">Menu</h2></div>
+      <p class="hint">What to do at each level. Today's menu shows up on the day once you pick a level.</p>
+      <div class="menu-counts" id="menuCounts"></div>
+      <button class="btn wide" type="button" data-action="open-menu">Open menu</button>
+    </section>
+
+    <section aria-labelledby="actsH">
+      <div class="sec-head"><h2 class="eyebrow" id="actsH">Activities</h2></div>
+      <ul id="acts"></ul>
+      <form id="actForm" class="add">
+        <label class="sr" for="act-name">New activity</label>
+        <input type="text" id="act-name" placeholder="Laundry, cat litter, dishes…" maxlength="120" required autocomplete="off">
+        <div class="row">
+          <label class="sr" for="act-every">Repeat every</label>
+          <input type="number" id="act-every" value="1" min="1" max="365">
+          <label class="sr" for="act-unit">Unit</label>
+          <select id="act-unit"><option value="days">days</option><option value="weeks" selected>weeks</option><option value="months">months</option></select>
+        </div>
+        <div class="row">
+          <label class="sr" for="act-first">First due</label>
+          <input type="date" id="act-first">
+          <button class="btn" type="submit">Add</button>
+        </div>
+      </form>
+      <p class="hint">Activities appear on the week automatically. Checking one off schedules the next one from that day.</p>
+    </section>
+
+    <section aria-labelledby="dataH">
+      <div class="sec-head"><h2 class="eyebrow" id="dataH">Your data</h2></div>
+      <div class="data-actions">
+        <button class="btn" type="button" data-action="open-sync">Sync with GitHub</button>
+        <button class="btn" type="button" data-action="export">Export backup</button>
+        <label class="btn" for="importFile">Import backup</label>
+        <input type="file" id="importFile" accept="application/json,.json" class="sr">
+      </div>
+      <p class="status" id="status" role="status"></p>
+    </section>
+  </aside>
+
+  <main class="main" aria-label="Week">
+    <div class="week-head">
+      <h2 class="week-label" id="weekLabel"></h2>
+      <div class="nav">
+        <button class="btn" type="button" data-action="prev-week" aria-label="Previous week">&larr; Prev</button>
+        <button class="btn" type="button" data-action="this-week">Today</button>
+        <button class="btn" type="button" data-action="next-week" aria-label="Next week">Next &rarr;</button>
+      </div>
+    </div>
+    <div class="week-sum" id="weekSummary"></div>
+    <div id="week"></div>
+  </main>
+</div>
+
+<dialog id="menuDlg" aria-labelledby="menuDlgH">
+  <div class="dlg">
+    <h2 id="menuDlgH">Menu</h2>
+    <div class="tabs" role="tablist" id="menuTabs"></div>
+    <p class="hint" id="menuHint"></p>
+    <ul class="menu-list" id="menuList"></ul>
+    <form id="menuForm" class="add">
+      <label class="sr" for="menu-new">New menu item</label>
+      <input type="text" id="menu-new" placeholder="Add something to this menu" maxlength="140" required autocomplete="off">
+      <button class="btn" type="submit">Add</button>
+    </form>
+    <div class="dlg-actions"><button class="btn primary" type="button" data-action="close-menu">Done</button></div>
+  </div>
+</dialog>
+
+<dialog id="finishDlg" aria-labelledby="finTitle">
+  <form class="dlg" id="finishForm" novalidate>
+    <h2 id="finTitle">Finish day</h2>
+    <fieldset class="field"><legend>How was the day</legend><div class="levels" id="finLevels"></div></fieldset>
+    <div class="field">
+      <label for="fin-text">What did you accomplish</label>
+      <textarea id="fin-text" placeholder="Anything counts. Getting up, eating, one email, a long walk."></textarea>
+    </div>
+    <p class="hint" id="finActs"></p>
+    <fieldset class="field" id="finGoalsWrap"><legend>Did any goal move forward</legend><div id="finGoals"></div></fieldset>
+    <p class="err" id="finErr" hidden>Pick green, yellow or red for the day first.</p>
+    <div class="dlg-actions">
+      <button class="btn" type="button" data-action="cancel-finish">Cancel</button>
+      <button class="btn primary" type="submit">Finish day</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="syncDlg" aria-labelledby="syncH">
+  <form class="dlg" id="syncForm" novalidate>
+    <h2 id="syncH">Sync with GitHub</h2>
+    <p class="hint">MOON saves your data as one file next to the app in your GitHub repository, so every machine shows the same week. Set this up once on each machine. The file is as public as the rest of the site.</p>
+    <ol class="steps">
+      <li>In GitHub, open Settings, Developer settings, Fine-grained tokens. Make a token that can reach only your site repository, with Contents set to Read and write.</li>
+      <li>Paste it below. The repository and file are already filled in.</li>
+    </ol>
+    <div class="field"><label for="sync-repo">Repository</label><input type="text" id="sync-repo" autocomplete="off" spellcheck="false"></div>
+    <div class="field"><label for="sync-token">Access token</label><input type="password" id="sync-token" autocomplete="off" spellcheck="false"></div>
+    <div class="field"><label for="sync-path">File path</label><input type="text" id="sync-path" autocomplete="off" spellcheck="false"></div>
+    <p class="err" id="syncErr" role="alert" hidden></p>
+    <div class="dlg-actions">
+      <button class="btn" type="button" data-action="sync-off">Turn off sync</button>
+      <button class="btn" type="button" data-action="close-sync">Cancel</button>
+      <button class="btn primary" type="submit" id="syncSave">Save and sync</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(() => {
+'use strict';
+
+const WEEK_START = 1; // 0 = Sunday, 1 = Monday
+const KEY = 'moon.v1';
+const LEVELS = [
+  { id: 'green', cls: 'g', label: 'Green', hint: 'Steady. You have room to do more.' },
+  { id: 'yellow', cls: 'y', label: 'Yellow', hint: 'Stretched. Keep it small and kind.' },
+  { id: 'red', cls: 'r', label: 'Red', hint: 'Low. Only the basics and getting support.' }
+];
+const LV = Object.fromEntries(LEVELS.map(l => [l.id, l]));
+
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const uid = () => Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-3);
+
+/* ---------- dates (all stored as local YYYY-MM-DD strings) ---------- */
+const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const parse = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+const addDays = (s, n) => { const d = parse(s); d.setDate(d.getDate() + n); return iso(d); };
+const addMonths = (s, n) => {
+  const d = parse(s); const day = d.getDate();
+  d.setDate(1); d.setMonth(d.getMonth() + n);
+  d.setDate(Math.min(day, new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate()));
+  return iso(d);
+};
+const addEvery = (s, every, unit) => unit === 'months' ? addMonths(s, every) : addDays(s, unit === 'weeks' ? every * 7 : every);
+const today = () => iso(new Date());
+const weekStart = s => { const d = parse(s); d.setDate(d.getDate() - ((d.getDay() - WEEK_START + 7) % 7)); return iso(d); };
+const fmtShort = s => parse(s).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+const fmtLong = s => parse(s).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+const freq = a => a.every === 1 ? `Every ${a.unit.slice(0, -1)}` : `Every ${a.every} ${a.unit}`;
+
+/* ---------- moon phase glyph ---------- */
+function moonInfo(dateStr) {
+  const d = parse(dateStr); d.setHours(12);
+  const days = (d.getTime() - Date.UTC(2000, 0, 6, 18, 14)) / 86400000;
+  const p = ((days / 29.530588853) % 1 + 1) % 1;
+  const c = Math.cos(2 * Math.PI * p);
+  const rx = Math.max(Math.abs(c) * 8, 0.01).toFixed(2);
+  const path = p < 0.5
+    ? `M10 2A8 8 0 0 1 10 18A${rx} 8 0 0 ${c > 0 ? 0 : 1} 10 2Z`
+    : `M10 2A8 8 0 0 0 10 18A${rx} 8 0 0 ${c < 0 ? 0 : 1} 10 2Z`;
+  const name = p < .03 || p >= .97 ? 'New moon' : p < .22 ? 'Waxing crescent' : p < .28 ? 'First quarter' : p < .47 ? 'Waxing gibbous'
+    : p < .53 ? 'Full moon' : p < .72 ? 'Waning gibbous' : p < .78 ? 'Last quarter' : 'Waning crescent';
+  return { path, name };
+}
+function moonSvg(dateStr, cls = 'moon') {
+  const m = moonInfo(dateStr);
+  return `<svg class="${cls}" viewBox="0 0 20 20" role="img" aria-label="${m.name}"><title>${m.name}</title><circle class="moon-dark" cx="10" cy="10" r="8"/><path class="moon-lit" d="${m.path}"/></svg>`;
+}
+
+/* ---------- state ---------- */
+function normalize(s) {
+  s = s && typeof s === 'object' ? s : {};
+  const menu = s.menu && typeof s.menu === 'object' ? s.menu : {};
+  return {
+    goals: Array.isArray(s.goals) ? s.goals : [],
+    menu: { green: menu.green || [], yellow: menu.yellow || [], red: menu.red || [] },
+    activities: Array.isArray(s.activities) ? s.activities : [],
+    days: s.days && typeof s.days === 'object' ? s.days : {},
+    log: Array.isArray(s.log) ? s.log : [],
+    updatedAt: s.updatedAt || 0
+  };
+}
+function seed() {
+  const t = today();
+  const m = arr => arr.map(text => ({ id: uid(), text }));
+  return normalize({
+    goals: [
+      { id: uid(), name: 'Keep a steady sleep schedule', target: 20 },
+      { id: uid(), name: 'Finish a book', target: 30 }
+    ],
+    menu: {
+      green: m(['Long walk or a workout', 'Call or see a friend', 'An hour on a goal']),
+      yellow: m(['Short walk outside', 'Shower and put on clean clothes', 'Cook one simple meal', 'One small step on a goal']),
+      red: m(['Drink water and eat something', 'Take any medication', 'Lie down with a show or podcast', 'Text someone I trust'])
+    },
+    activities: [
+      { id: uid(), name: 'Laundry', every: 1, unit: 'weeks', nextDue: t },
+      { id: uid(), name: 'Change cat litter', every: 2, unit: 'days', nextDue: t },
+      { id: uid(), name: 'Clean the kitchen', every: 1, unit: 'weeks', nextDue: addDays(t, 2) },
+      { id: uid(), name: 'Vacuum', every: 2, unit: 'weeks', nextDue: addDays(t, 4) }
+    ]
+  });
+}
+function loadLocal() {
+  try { const raw = localStorage.getItem(KEY); return raw ? normalize(JSON.parse(raw)) : null; } catch { return null; }
+}
+let state = loadLocal() || seed();
+let view = today();
+let mode = 'local';       // local | server (the included server.js) | github
+let syncState = 'local';  // local | synced | error
+let syncMsg = '';
+let saveTimer = 0;
+let ghCfg = (() => {
+  try { const c = JSON.parse(localStorage.getItem('moon.sync') || 'null'); return c && c.repo && c.token ? c : null; } catch { return null; }
+})();
+let ghSha = null, ghBusy = false, ghDirty = false, pendingSave = false;
+if (ghCfg) mode = 'github';
+
+function setStatus() {
+  const el = $('#status');
+  if (mode === 'github') {
+    el.textContent = syncState === 'error'
+      ? `GitHub sync problem: ${syncMsg || 'could not reach GitHub'}. Changes are saved on this device.`
+      : `Synced to GitHub (${ghCfg.repo}).`;
+  } else if (mode === 'server') {
+    el.textContent = syncState === 'error'
+      ? 'Could not reach your server. Changes are saved on this device and will sync when it is back.'
+      : 'Synced to your server.';
+  } else {
+    el.textContent = 'Saved in this browser only. Use Sync with GitHub to share it across machines, or Export backup to move it by hand.';
+  }
+}
+function persist() {
+  state.updatedAt = Date.now();
+  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
+  clearTimeout(saveTimer);
+  pendingSave = true;
+  // Every GitHub save is a commit to your site repo, so wait for a quiet moment before saving.
+  saveTimer = setTimeout(push, mode === 'github' ? 4000 : 400);
+}
+async function pushServer() {
+  if (mode !== 'server') return;
+  try {
+    const r = await fetch('api/state', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(state) });
+    syncState = r.ok ? 'synced' : 'error';
+  } catch { syncState = 'error'; }
+  setStatus();
+}
+async function pullServer() {
+  try {
+    const r = await fetch('api/state', { cache: 'no-store' });
+    if (!r.ok) throw new Error('no server');
+    const remote = await r.json();
+    mode = 'server'; syncState = 'synced';
+    if (remote && remote.updatedAt && remote.updatedAt > (state.updatedAt || 0)) {
+      state = normalize(remote);
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
+      render();
+    } else if (state.updatedAt && state.updatedAt > (remote.updatedAt || 0)) {
+      await pushServer();
+    }
+  } catch { mode = 'local'; }
+  setStatus();
+}
+
+/* ---------- optional GitHub sync: one JSON file in a private repo you own ---------- */
+const b64enc = str => {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  return btoa(bin);
+};
+const b64dec = b64 => new TextDecoder().decode(Uint8Array.from(atob(b64.replace(/\s/g, '')), c => c.charCodeAt(0)));
+const ghRepoUrl = () => `https://api.github.com/repos/${ghCfg.repo}`;
+const ghFileUrl = () => `${ghRepoUrl()}/contents/${ghCfg.path.split('/').map(encodeURIComponent).join('/')}`;
+const ghHeaders = () => ({ Authorization: `Bearer ${ghCfg.token}`, Accept: 'application/vnd.github+json' });
+const ghFail = (msg) => { syncState = 'error'; syncMsg = msg; };
+
+// Returns true when it replaced local data with newer data from GitHub.
+async function pullGithub(allowPush = true) {
+  try {
+    const r = await fetch(ghFileUrl(), { headers: ghHeaders(), cache: 'no-store' });
+    if (r.status === 404) {
+      const repo = await fetch(ghRepoUrl(), { headers: ghHeaders(), cache: 'no-store' });
+      if (!repo.ok) ghFail('repository not found, or the token cannot see it');
+      else {
+        ghSha = null; syncState = 'synced';
+        if (allowPush && state.updatedAt) await pushGithub(false);
+      }
+    } else if (r.status === 401 || r.status === 403) {
+      ghFail('GitHub rejected the token');
+    } else if (!r.ok) {
+      ghFail(`GitHub returned ${r.status}`);
+    } else {
+      const j = await r.json();
+      ghSha = j.sha; syncState = 'synced';
+      const remote = JSON.parse(b64dec(j.content));
+      if ((remote.updatedAt || 0) > (state.updatedAt || 0)) {
+        state = normalize(remote);
+        try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
+        render(); setStatus();
+        return true;
+      }
+      if (allowPush && (state.updatedAt || 0) > (remote.updatedAt || 0)) await pushGithub(false);
+    }
+  } catch { ghFail('could not reach GitHub'); }
+  setStatus();
+  return false;
+}
+async function pushGithub(retry = true) {
+  if (ghBusy) { ghDirty = true; return; }
+  ghBusy = true;
+  let conflict = false;
+  try {
+    const body = { message: 'MOON sync', content: b64enc(JSON.stringify(state)) };
+    if (ghSha) body.sha = ghSha;
+    const r = await fetch(ghFileUrl(), { method: 'PUT', headers: { ...ghHeaders(), 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (r.ok) { ghSha = (await r.json()).content.sha; syncState = 'synced'; }
+    else if (r.status === 409 || r.status === 422) conflict = true;
+    else if (r.status === 401 || r.status === 403 || r.status === 404) ghFail('GitHub refused the save. The token needs Contents: Read and write on that repository');
+    else ghFail(`GitHub returned ${r.status}`);
+  } catch { ghFail('could not reach GitHub'); }
+  ghBusy = false;
+  if (conflict) {
+    // Another machine saved first. Take its data if newer, otherwise save ours on top.
+    if (retry) { const took = await pullGithub(false); if (!took) await pushGithub(false); return; }
+    ghFail('the file changed on another machine, reload to catch up');
+  }
+  if (ghDirty) { ghDirty = false; return pushGithub(); }
+  setStatus();
+}
+const pull = () => mode === 'github' ? pullGithub() : pullServer();
+const push = () => { pendingSave = false; return mode === 'github' ? pushGithub() : pushServer(); };
+
+function openSync() {
+  $('#sync-repo').value = ghCfg ? ghCfg.repo : 'kevincstowe/kevincstowe.github.io';
+  $('#sync-path').value = ghCfg ? ghCfg.path : 'moon/state.json';
+  $('#sync-token').value = '';
+  $('#sync-token').placeholder = ghCfg ? 'Saved on this device. Leave blank to keep it.' : 'github_pat_...';
+  $('#syncErr').hidden = true;
+  $('#syncDlg').showModal();
+}
+
+/* ---------- goals ---------- */
+function goalPoints(id) {
+  return Object.values(state.days).reduce((s, d) => s + ((d.finished && d.goalPts && d.goalPts[id]) || 0), 0);
+}
+
+/* ---------- activities on the calendar ---------- */
+function dueOn(date) {
+  const t = today();
+  const out = [];
+  for (const l of state.log) {
+    if (l.date !== date) continue;
+    const a = state.activities.find(x => x.id === l.act);
+    if (a) out.push({ a, done: true });
+  }
+  if (date < t) return out;
+  for (const a of state.activities) {
+    if (state.log.some(l => l.act === a.id && l.date === date)) continue;
+    let n = a.nextDue;
+    if (n < t) {
+      if (date === t) out.push({ a, done: false, overdue: true, was: n });
+      continue;
+    }
+    let guard = 0;
+    while (n < date && guard++ < 2000) n = addEvery(n, a.every, a.unit);
+    if (n === date) out.push({ a, done: false });
+  }
+  return out;
+}
+function toggleAct(date, actId, checked) {
+  const a = state.activities.find(x => x.id === actId);
+  if (!a) return;
+  if (checked) {
+    state.log.push({ id: uid(), act: actId, date, prev: a.nextDue });
+    a.nextDue = addEvery(date, a.every, a.unit);
+  } else {
+    const i = state.log.findIndex(l => l.act === actId && l.date === date);
+    if (i > -1) {
+      const [e] = state.log.splice(i, 1);
+      if (!state.log.some(l => l.act === actId && l.date > e.date)) a.nextDue = e.prev;
+    }
+  }
+  persist(); render();
+}
+
+/* ---------- rendering ---------- */
+function renderGoals() {
+  const el = $('#goals');
+  if (!state.goals.length) { el.innerHTML = '<li class="empty">No goals yet. Add something long-term to move toward.</li>'; return; }
+  el.innerHTML = state.goals.map(g => {
+    const pts = goalPoints(g.id);
+    const pct = g.done ? 100 : Math.min(100, Math.round(pts / g.target * 100));
+    const fin = pct >= 100;
+    return `<li class="goal ${fin ? 'fin' : ''}">
+      <div class="goal-top"><span class="goal-name">${esc(g.name)}</span>
+        <button class="x" type="button" data-action="rm-goal" data-id="${g.id}" aria-label="Remove goal ${esc(g.name)}">&times;</button></div>
+      <div class="scale" role="progressbar" aria-label="${esc(g.name)} progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div>
+      <div class="goal-meta"><span>${fin ? 'Finished' : `${pts} of ${g.target} points &middot; ${pct}%`}</span>
+        <button class="link" type="button" data-action="toggle-goal" data-id="${g.id}">${g.done ? 'Reopen' : 'Mark finished'}</button></div>
+    </li>`;
+  }).join('');
+}
+function renderMenuCounts() {
+  $('#menuCounts').innerHTML = LEVELS.map(l =>
+    `<span class="chip ${l.cls}"><span class="dot ${l.cls}"></span>${l.label} &middot; ${state.menu[l.id].length}</span>`).join('');
+}
+function renderActs() {
+  const el = $('#acts');
+  if (!state.activities.length) { el.innerHTML = '<li class="empty">No activities yet. Add the things that need doing regularly.</li>'; return; }
+  const t = today();
+  el.innerHTML = state.activities.map(a => `<li class="act">
+    <div><div class="act-name">${esc(a.name)}</div>
+      <div class="act-meta">${freq(a)} &middot; ${a.nextDue < t ? 'overdue since ' : 'next '}${fmtShort(a.nextDue)}</div></div>
+    <button class="x" type="button" data-action="rm-act" data-id="${a.id}" aria-label="Remove activity ${esc(a.name)}">&times;</button>
+  </li>`).join('');
+}
+function dayHtml(date, t) {
+  const day = state.days[date] || {};
+  const lvl = day.level || '';
+  const d = parse(date);
+  const due = dueOn(date);
+
+  const levels = LEVELS.map(l => `<label class="lvl ${l.cls}"><input type="radio" name="lvl-${date}" id="lvl-${date}-${l.id}" value="${l.id}" data-level data-date="${date}" ${lvl === l.id ? 'checked' : ''}><span>${l.label}</span></label>`).join('');
+
+  const dueHtml = due.length ? due.map(o => `<label class="todo ${o.done ? 'done' : ''}" for="act-${date}-${o.a.id}">
+      <input type="checkbox" id="act-${date}-${o.a.id}" data-act="${o.a.id}" data-date="${date}" ${o.done ? 'checked' : ''}>
+      <span class="t">${esc(o.a.name)}</span>
+      ${o.overdue ? `<span class="tag over">Overdue &middot; was ${fmtShort(o.was)}</span>` : `<span class="tag">${freq(o.a)}</span>`}
+    </label>`).join('') : '<p class="none">Nothing due.</p>';
+
+  let menuHtml;
+  if (!lvl) menuHtml = '<p class="none">Pick a level to see its menu.</p>';
+  else if (!state.menu[lvl].length) menuHtml = '<p class="none">This menu is empty. Add ideas under Menu.</p>';
+  else {
+    const doneIds = day.menuDone || [];
+    menuHtml = state.menu[lvl].map(it => `<label class="todo ${doneIds.includes(it.id) ? 'done' : ''}" for="menu-${date}-${it.id}">
+      <input type="checkbox" id="menu-${date}-${it.id}" data-menu="${it.id}" data-date="${date}" ${doneIds.includes(it.id) ? 'checked' : ''}>
+      <span class="t">${esc(it.text)}</span></label>`).join('');
+  }
+
+  let fin = '';
+  if (day.finished) {
+    const chips = state.goals.filter(g => day.goalPts && day.goalPts[g.id] > 0)
+      .map(g => `<span class="chip">${esc(g.name)} +${day.goalPts[g.id]}</span>`).join('');
+    fin = `<div class="done-note"><span class="eyebrow">Accomplished</span><p>${day.accomplished ? esc(day.accomplished) : 'No note.'}</p>${chips ? `<div class="chips">${chips}</div>` : ''}</div>`;
+  }
+
+  return `<article class="day ${date === t ? 'today' : ''}" aria-label="${fmtLong(date)}">
+    <div class="day-head">
+      <div class="day-title">
+        <span class="dayname">${d.toLocaleDateString('en-US', { weekday: 'long' })}</span>
+        <span class="daydate">${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+        ${moonSvg(date)}
+        ${date === t ? '<span class="today-tag">Today</span>' : ''}
+      </div>
+      <div class="day-actions">
+        <fieldset class="levels"><legend class="sr">How was ${fmtLong(date)}</legend>${levels}</fieldset>
+        ${day.finished ? '<span class="finished-badge">Finished</span>' : ''}
+        <button class="btn ${day.finished ? '' : 'primary'}" type="button" data-action="finish" data-date="${date}">${day.finished ? 'Edit day' : 'Finish day'}</button>
+      </div>
+    </div>
+    <div class="day-body">
+      <div><span class="eyebrow">Due</span>${dueHtml}</div>
+      <div><span class="eyebrow">${lvl ? `${LV[lvl].label} menu` : 'Menu'}</span>${menuHtml}</div>
+    </div>
+    ${fin}
+  </article>`;
+}
+function renderWeek() {
+  const t = today();
+  const ws = weekStart(view);
+  const days = Array.from({ length: 7 }, (_, i) => addDays(ws, i));
+  const a = parse(days[0]), b = parse(days[6]);
+  $('#weekLabel').textContent = `${a.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} – ${b.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+  const counts = { green: 0, yellow: 0, red: 0 };
+  days.forEach(d => { const l = state.days[d] && state.days[d].level; if (l) counts[l]++; });
+  $('#weekSummary').innerHTML = LEVELS.map(l => `<span><span class="dot ${l.cls}"></span>${counts[l.id]} ${l.label.toLowerCase()}</span>`).join('');
+  $('#week').innerHTML = days.map(d => dayHtml(d, t)).join('');
+}
+function render() {
+  const id = document.activeElement && document.activeElement.id;
+  $('#logo').innerHTML = moonSvg(today(), 'moon');
+  renderGoals(); renderMenuCounts(); renderActs(); renderWeek();
+  if (id) { const el = document.getElementById(id); if (el) el.focus({ preventScroll: true }); }
+}
+
+/* ---------- menu dialog ---------- */
+let menuTab = 'green';
+function renderMenuDlg() {
+  const l = LV[menuTab];
+  $('#menuTabs').innerHTML = LEVELS.map(x => `<button class="tab ${x.cls}" type="button" role="tab" data-action="tab" data-level="${x.id}" aria-selected="${x.id === menuTab}"><span class="dot ${x.cls}"></span>${x.label}</button>`).join('');
+  $('#menuHint').textContent = `${l.label}: ${l.hint}`;
+  const items = state.menu[menuTab];
+  $('#menuList').innerHTML = items.length
+    ? items.map(it => `<li class="menu-item"><span>${esc(it.text)}</span><button class="x" type="button" data-action="rm-menu" data-id="${it.id}" aria-label="Remove ${esc(it.text)}">&times;</button></li>`).join('')
+    : '<li class="none">Nothing here yet. Add what you would want to do at this level.</li>';
+}
+
+/* ---------- finish dialog ---------- */
+let finishDate = null;
+function levelRadios(name, current) {
+  return LEVELS.map(l => `<label class="lvl ${l.cls}"><input type="radio" name="${name}" value="${l.id}" ${current === l.id ? 'checked' : ''}><span>${l.label}</span></label>`).join('');
+}
+function openFinish(date) {
+  finishDate = date;
+  const day = state.days[date] || {};
+  $('#finTitle').textContent = `Finish ${fmtLong(date)}`;
+  $('#finLevels').innerHTML = levelRadios('fin-level', day.level || '');
+  $('#fin-text').value = day.accomplished || '';
+  const done = dueOn(date).filter(o => o.done).map(o => o.a.name);
+  $('#finActs').textContent = done.length ? `Already checked off today: ${done.join(', ')}.` : '';
+  $('#finActs').hidden = !done.length;
+  $('#finGoalsWrap').hidden = !state.goals.length;
+  const labels = ['None', 'Small', 'Solid', 'Big'];
+  $('#finGoals').innerHTML = state.goals.map(g => {
+    const cur = (day.goalPts && day.goalPts[g.id]) || 0;
+    return `<div class="gp"><span class="gp-name">${esc(g.name)}</span><div class="seg" role="radiogroup" aria-label="Progress on ${esc(g.name)}">
+      ${labels.map((lb, i) => `<label><input type="radio" name="gp-${g.id}" value="${i}" ${cur === i ? 'checked' : ''}><span>${lb}</span></label>`).join('')}</div></div>`;
+  }).join('');
+  $('#finErr').hidden = true;
+  $('#finishDlg').showModal();
+}
+
+/* ---------- events ---------- */
+function armed(btn) {
+  if (btn.dataset.armed) return true;
+  btn.dataset.armed = '1'; btn.dataset.label = btn.innerHTML; btn.textContent = 'Remove?'; btn.classList.add('armed');
+  setTimeout(() => {
+    if (btn.isConnected) { delete btn.dataset.armed; btn.innerHTML = btn.dataset.label; btn.classList.remove('armed'); }
+  }, 3000);
+  return false;
+}
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-action]');
+  if (!btn) return;
+  const act = btn.dataset.action;
+  if (act === 'prev-week') { view = addDays(view, -7); renderWeek(); }
+  else if (act === 'next-week') { view = addDays(view, 7); renderWeek(); }
+  else if (act === 'this-week') { view = today(); renderWeek(); }
+  else if (act === 'finish') openFinish(btn.dataset.date);
+  else if (act === 'cancel-finish') $('#finishDlg').close();
+  else if (act === 'open-menu') { renderMenuDlg(); $('#menuDlg').showModal(); }
+  else if (act === 'close-menu') $('#menuDlg').close();
+  else if (act === 'open-sync') openSync();
+  else if (act === 'close-sync') $('#syncDlg').close();
+  else if (act === 'sync-off') {
+    ghCfg = null; mode = 'local'; syncState = 'local';
+    try { localStorage.removeItem('moon.sync'); } catch {}
+    $('#syncDlg').close(); setStatus(); pullServer();
+  }
+  else if (act === 'tab') { menuTab = btn.dataset.level; renderMenuDlg(); }
+  else if (act === 'rm-goal') { if (armed(btn)) { state.goals = state.goals.filter(g => g.id !== btn.dataset.id); persist(); render(); } }
+  else if (act === 'toggle-goal') { const g = state.goals.find(x => x.id === btn.dataset.id); if (g) { g.done = !g.done; persist(); render(); } }
+  else if (act === 'rm-act') { if (armed(btn)) { state.activities = state.activities.filter(a => a.id !== btn.dataset.id); persist(); render(); } }
+  else if (act === 'rm-menu') { if (armed(btn)) { state.menu[menuTab] = state.menu[menuTab].filter(i => i.id !== btn.dataset.id); persist(); renderMenuDlg(); render(); } }
+  else if (act === 'export') {
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `moon-backup-${today()}.json`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+});
+
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.matches('input[data-level]')) {
+    const date = t.dataset.date;
+    state.days[date] = { ...(state.days[date] || {}), level: t.value, menuDone: [] };
+    persist(); render();
+  } else if (t.matches('input[data-act]')) {
+    toggleAct(t.dataset.date, t.dataset.act, t.checked);
+  } else if (t.matches('input[data-menu]')) {
+    const date = t.dataset.date;
+    const day = state.days[date] = state.days[date] || {};
+    const set = new Set(day.menuDone || []);
+    t.checked ? set.add(t.dataset.menu) : set.delete(t.dataset.menu);
+    day.menuDone = [...set];
+    persist(); render();
+  } else if (t.id === 'importFile' && t.files[0]) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const next = normalize(JSON.parse(reader.result));
+        state = next; persist(); render();
+        $('#status').textContent = 'Backup imported.';
+      } catch { $('#status').textContent = 'That file could not be read as a MOON backup.'; }
+      t.value = '';
+    };
+    reader.readAsText(t.files[0]);
+  }
+});
+
+$('#goalForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('#goal-name').value.trim();
+  const target = Math.max(1, Math.min(500, parseInt($('#goal-target').value, 10) || 20));
+  if (!name) return;
+  state.goals.push({ id: uid(), name, target });
+  $('#goal-name').value = '';
+  persist(); render();
+});
+$('#actForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('#act-name').value.trim();
+  if (!name) return;
+  state.activities.push({
+    id: uid(), name,
+    every: Math.max(1, parseInt($('#act-every').value, 10) || 1),
+    unit: $('#act-unit').value,
+    nextDue: $('#act-first').value || today()
+  });
+  $('#act-name').value = '';
+  persist(); render();
+});
+$('#menuForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const text = $('#menu-new').value.trim();
+  if (!text) return;
+  state.menu[menuTab].push({ id: uid(), text });
+  $('#menu-new').value = '';
+  persist(); renderMenuDlg(); render();
+  $('#menu-new').focus();
+});
+$('#finishForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const picked = $('#finishForm').querySelector('input[name="fin-level"]:checked');
+  if (!picked) { $('#finErr').hidden = false; return; }
+  const goalPts = {};
+  state.goals.forEach(g => {
+    const r = $('#finishForm').querySelector(`input[name="gp-${g.id}"]:checked`);
+    if (r && +r.value > 0) goalPts[g.id] = +r.value;
+  });
+  const prev = state.days[finishDate] || {};
+  const levelChanged = prev.level !== picked.value;
+  state.days[finishDate] = { ...prev, level: picked.value, menuDone: levelChanged ? [] : (prev.menuDone || []),
+    accomplished: $('#fin-text').value.trim(), goalPts, finished: true };
+  $('#finishDlg').close();
+  persist(); render();
+});
+
+$('#syncForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = $('#syncErr');
+  const repo = $('#sync-repo').value.trim().replace(/^https?:\/\/github\.com\//, '').replace(/\.git$/, '').replace(/\/+$/, '');
+  const path = ($('#sync-path').value.trim() || 'moon/state.json').replace(/^\/+/, '');
+  const token = $('#sync-token').value.trim() || (ghCfg && ghCfg.token) || '';
+  if (!/^[\w.-]+\/[\w.-]+$/.test(repo) || !token) {
+    err.textContent = 'Enter the repository as owner/name and paste a token.'; err.hidden = false; return;
+  }
+  const prev = { cfg: ghCfg, mode };
+  ghCfg = { repo, token, path }; mode = 'github'; ghSha = null;
+  $('#syncSave').disabled = true;
+  await pullGithub();
+  $('#syncSave').disabled = false;
+  if (syncState === 'error') {
+    err.textContent = `Could not connect: ${syncMsg}.`; err.hidden = false;
+    ghCfg = prev.cfg; mode = prev.mode; syncState = prev.cfg ? 'synced' : 'local'; setStatus();
+    return;
+  }
+  try { localStorage.setItem('moon.sync', JSON.stringify(ghCfg)); } catch {}
+  err.hidden = true;
+  $('#syncDlg').close();
+  setStatus();
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') { render(); pull(); }
+  else if (pendingSave) { clearTimeout(saveTimer); push(); }
+});
+
+$('#act-first').value = today();
+render();
+setStatus();
+pull();
+})();
+</script>
+</body>
+</html>
