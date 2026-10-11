@@ -119,7 +119,7 @@ textarea { width: 100%; min-height: 110px; resize: vertical; }
 .main { min-width: 0; display: flex; flex-direction: column; gap: 14px; }
 .week-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
 .week-label { font-family: var(--font-display); font-size: 1.9rem; line-height: 1.1; }
-.nav { display: flex; gap: 6px; }
+.nav { display: flex; flex-wrap: wrap; gap: 6px; }
 .week-sum { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .85rem; color: var(--muted); }
 .week-sum span { display: inline-flex; align-items: center; gap: 6px; }
 #week { display: flex; flex-direction: column; gap: 12px; }
@@ -167,7 +167,9 @@ dialog::backdrop { background: rgba(8, 12, 24, .6); }
 .err { color: var(--red); font-size: .88rem; }
 .gp { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; padding: 6px 0; border-top: 1px solid var(--line); }
 .gp-name { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
-.seg { display: flex; gap: 4px; }
+.seg { display: flex; flex-wrap: wrap; gap: 4px; }
+.gp-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.gp-num { width: 90px; }
 .seg label { position: relative; display: inline-flex; }
 .seg input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
 .seg span { padding: 4px 11px; border-radius: 8px; border: 1px solid var(--line); font-size: .82rem; font-weight: 600; color: var(--muted); }
@@ -199,6 +201,30 @@ dialog::backdrop { background: rgba(8, 12, 24, .6); }
 code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .85em; background: var(--surface-2); padding: 1px 5px; border-radius: 5px; }
 .data-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
+.day-toggle { display: flex; align-items: center; gap: 10px; background: none; border: 0; padding: 2px 0; margin: 0; color: inherit; text-align: left; cursor: pointer; flex-wrap: wrap; min-width: 0; border-radius: 8px; }
+.chev { width: 14px; height: 14px; flex: none; color: var(--muted); transition: transform .15s; transform: rotate(-90deg); }
+.day-toggle[aria-expanded="true"] .chev { transform: none; }
+.day.collapsed { padding-block: 8px; }
+.day.collapsed .dayname { font-size: 1.3rem; }
+.menu-blocks { display: flex; flex-direction: column; gap: 16px; }
+.menu-block { display: flex; flex-direction: column; gap: 4px; }
+.lvl-eyebrow { color: var(--c); }
+.sum-dots { display: inline-flex; gap: 4px; }
+.mini { display: inline-flex; align-items: center; gap: 8px; }
+.mini-fin { color: var(--green); font-weight: 700; font-size: .9rem; }
+.todo-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.todo-row .todo { flex: 1 1 auto; min-width: 0; }
+.todo-done-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-top: 6px; }
+#todos { display: flex; flex-direction: column; gap: 2px; }
+.hist-body { display: flex; flex-direction: column; gap: 14px; max-height: 55vh; overflow-y: auto; padding-right: 4px; }
+.hist-day { display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--line); padding-top: 10px; }
+.hist-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.hist-date { font-weight: 600; }
+.hist-day ul { display: flex; flex-direction: column; gap: 4px; }
+.hist-ev { display: flex; gap: 10px; font-size: .88rem; }
+.hist-time { color: var(--muted); flex: none; width: 4.6em; font-variant-numeric: tabular-nums; }
+.hist-txt { min-width: 0; overflow-wrap: anywhere; }
+.hist-note { white-space: pre-wrap; color: var(--muted); margin-top: 2px; }
 .sum-body { display: flex; flex-direction: column; gap: 20px; }
 .sum-strip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
 .sum-cell { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 2px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); min-width: 0; text-align: center; }
@@ -267,10 +293,10 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
         <label class="sr" for="goal-name">New goal</label>
         <input type="text" id="goal-name" placeholder="A long-term goal" maxlength="120" required autocomplete="off">
         <label class="sr" for="goal-target">Points to finish</label>
-        <input type="number" id="goal-target" value="20" min="1" max="500" title="Points needed to finish">
+        <input type="number" id="goal-target" value="20" min="1" max="100000" title="Points needed to finish">
         <button class="btn" type="submit">Add</button>
       </form>
-      <p class="hint">When you finish a day, mark how far each goal moved: small is 1 point, solid is 2, big is 3. A goal is finished at its point total.</p>
+      <p class="hint">When you finish a day, enter how much each goal moved. Pick 1, 2 or 5, or type your own number. A goal is finished when it reaches its point total.</p>
     </section>
 
     <section aria-labelledby="menuH">
@@ -301,6 +327,17 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
       <p class="hint">Activities appear on the week automatically. Checking one off schedules the next one from that day.</p>
     </section>
 
+    <section aria-labelledby="todosH">
+      <div class="sec-head"><h2 class="eyebrow" id="todosH">Todos</h2></div>
+      <ul id="todos"></ul>
+      <form id="todoForm" class="add">
+        <label class="sr" for="todo-new">New todo</label>
+        <input type="text" id="todo-new" placeholder="A one-off task" maxlength="140" required autocomplete="off">
+        <button class="btn" type="submit">Add</button>
+      </form>
+      <p class="hint">One-off things to check off. A checked todo is logged on the day you finish it.</p>
+    </section>
+
     <section aria-labelledby="dataH">
       <div class="sec-head"><h2 class="eyebrow" id="dataH">Your data</h2></div>
       <div class="data-actions">
@@ -322,6 +359,8 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
         <button class="btn" type="button" data-action="this-week">Today</button>
         <button class="btn" type="button" data-action="next-week" aria-label="Next week">Next &rarr;</button>
         <button class="btn" type="button" data-action="week-summary">Week summary</button>
+        <button class="btn" type="button" data-action="open-history">History</button>
+        <button class="btn" type="button" id="toggleAll" data-action="toggle-all">Collapse all</button>
       </div>
     </div>
     <div class="week-sum" id="weekSummary"></div>
@@ -347,19 +386,32 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
 <dialog id="finishDlg" aria-labelledby="finTitle">
   <form class="dlg" id="finishForm" novalidate>
     <h2 id="finTitle">Finish day</h2>
-    <fieldset class="field"><legend>How was the day</legend><div class="levels" id="finLevels"></div></fieldset>
+    <fieldset class="field"><legend>How was the day. Pick any that fit.</legend><div class="levels" id="finLevels"></div></fieldset>
     <div class="field">
       <label for="fin-text">What did you accomplish</label>
       <textarea id="fin-text" placeholder="Anything counts. Getting up, eating, one email, a long walk."></textarea>
     </div>
     <p class="hint" id="finActs"></p>
-    <fieldset class="field" id="finGoalsWrap"><legend>Did any goal move forward</legend><div id="finGoals"></div></fieldset>
-    <p class="err" id="finErr" hidden>Pick green, yellow or red for the day first.</p>
+    <fieldset class="field" id="finGoalsWrap"><legend>How much did each goal move forward</legend><div id="finGoals"></div></fieldset>
+    <p class="err" id="finErr" hidden>Pick at least one color for the day first.</p>
     <div class="dlg-actions">
       <button class="btn" type="button" data-action="cancel-finish">Cancel</button>
       <button class="btn primary" type="submit">Finish day</button>
     </div>
   </form>
+</dialog>
+
+<dialog id="histDlg" aria-labelledby="histH">
+  <div class="dlg">
+    <h2 id="histH">History</h2>
+    <p class="hint">Every color and everything you checked off, saved by day. Clearing a day does not remove it from here.</p>
+    <p class="sum-line" id="histTally"></p>
+    <div class="hist-body" id="histBody"></div>
+    <div class="dlg-actions">
+      <button class="btn" type="button" data-action="export-history">Download as CSV</button>
+      <button class="btn primary" type="button" data-action="close-history">Close</button>
+    </div>
+  </div>
 </dialog>
 
 <dialog id="sumDlg" aria-labelledby="sumTitle">
@@ -424,6 +476,7 @@ const LV = Object.fromEntries(LEVELS.map(l => [l.id, l]));
 
 const $ = (s, r = document) => r.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const num = n => String(Math.round(n * 100) / 100);
 const uid = () => Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-3);
 
 /* ---------- dates (all stored as local YYYY-MM-DD strings) ---------- */
@@ -463,6 +516,46 @@ function moonSvg(dateStr, cls = 'moon') {
 }
 
 /* ---------- state ---------- */
+const LEVEL_IDS = ['green', 'yellow', 'red'];
+// A day holds a list of colors. Older saves stored a single `level`.
+const dayLevels = d => Array.isArray(d.levels) ? d.levels : (d.level ? [d.level] : []);
+function normDays(raw) {
+  const out = {};
+  if (raw && typeof raw === 'object') Object.keys(raw).forEach(date => {
+    const d = { ...(raw[date] || {}) };
+    d.levels = LEVEL_IDS.filter(l => dayLevels(d).includes(l));
+    delete d.level;
+    out[date] = d;
+  });
+  return out;
+}
+// Older saves have no history. Build one from the days, check-offs and notes already stored.
+function backfill(s) {
+  const at = d => parse(d).getTime() + 12 * 3600 * 1000;
+  const goalName = id => ((s.goals || []).find(g => g.id === id) || {}).name || 'A goal';
+  const days = s.days && typeof s.days === 'object' ? s.days : {};
+  const out = [];
+  Object.keys(days).forEach(date => {
+    const d = days[date] || {};
+    const lv = dayLevels(d);
+    const t = at(date);
+    lv.forEach(l => out.push({ id: uid(), t, date, kind: 'color', level: l, multi: true, backfill: true }));
+    (d.menuDone || []).forEach(id => {
+      for (const l of LEVEL_IDS) {
+        const it = ((s.menu || {})[l] || []).find(i => i.id === id);
+        if (it) { out.push({ id: uid(), t: t + 1, date, kind: 'menu', level: l, text: it.text, backfill: true }); break; }
+      }
+    });
+    if (d.finished) out.push({ id: uid(), t: t + 3, date, kind: 'finish', levels: lv, note: d.accomplished || '',
+      goals: Object.entries(d.goalPts || {}).filter(([, p]) => p > 0).map(([id, pts]) => ({ name: goalName(id), pts })), backfill: true });
+  });
+  (s.log || []).forEach(l => {
+    const a = (s.activities || []).find(x => x.id === l.act);
+    const text = l.name || (a && a.name);
+    if (text && l.date) out.push({ id: uid(), t: at(l.date) + 2, date: l.date, kind: 'activity', text, backfill: true });
+  });
+  return out.sort((x, y) => x.t - y.t);
+}
 function normalize(s) {
   s = s && typeof s === 'object' ? s : {};
   const menu = s.menu && typeof s.menu === 'object' ? s.menu : {};
@@ -471,10 +564,16 @@ function normalize(s) {
     goals: Array.isArray(s.goals) ? s.goals : [],
     menu: { green: menu.green || [], yellow: menu.yellow || [], red: menu.red || [] },
     activities: Array.isArray(s.activities) ? s.activities : [],
-    days: s.days && typeof s.days === 'object' ? s.days : {},
+    todos: Array.isArray(s.todos) ? s.todos : [],
+    days: normDays(s.days),
     log: Array.isArray(s.log) ? s.log : [],
+    // Append-only record of every color and every check-off. Clearing a day never removes from it.
+    history: Array.isArray(s.history) ? s.history : backfill(s),
     updatedAt: s.updatedAt || 0
   };
+}
+function logEvent(kind, date, props = {}) {
+  state.history.push({ id: uid(), t: Date.now(), date, kind, ...props });
 }
 function seed() {
   const t = today();
@@ -487,7 +586,7 @@ function seed() {
     menu: {
       green: m(['Long walk or a workout', 'Call or see a friend', 'An hour on a goal']),
       yellow: m(['Short walk outside', 'Shower and put on clean clothes', 'Cook one simple meal', 'One small step on a goal']),
-      red: m(['Drink water and eat something', 'Take any medication', 'Lie down with a show or podcast', 'Text someone I trust'])
+      red: m(['Drink water and eat something', 'Lie down with a show or podcast', 'Text someone I trust'])
     },
     activities: [
       { id: uid(), name: 'Laundry', every: 1, unit: 'weeks', nextDue: t },
@@ -795,14 +894,16 @@ function toggleAct(date, actId, checked) {
   const a = state.activities.find(x => x.id === actId);
   if (!a) return;
   if (checked) {
-    state.log.push({ id: uid(), act: actId, date, prev: a.nextDue });
+    state.log.push({ id: uid(), act: actId, date, prev: a.nextDue, name: a.name });
     a.nextDue = addEvery(date, a.every, a.unit);
+    logEvent('activity', date, { text: a.name });
   } else {
     const i = state.log.findIndex(l => l.act === actId && l.date === date);
     if (i > -1) {
       const [e] = state.log.splice(i, 1);
       if (!state.log.some(l => l.act === actId && l.date > e.date)) a.nextDue = e.prev;
     }
+    logEvent('activity', date, { text: a.name, off: true });
   }
   persist(); render();
 }
@@ -819,7 +920,7 @@ function renderGoals() {
       <div class="goal-top"><span class="goal-name">${esc(g.name)}</span>
         <button class="x" type="button" data-action="rm-goal" data-id="${g.id}" aria-label="Remove goal ${esc(g.name)}">&times;</button></div>
       <div class="scale" role="progressbar" aria-label="${esc(g.name)} progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div>
-      <div class="goal-meta"><span>${fin ? 'Finished' : `${pts} of ${g.target} points &middot; ${pct}%`}</span>
+      <div class="goal-meta"><span>${fin ? 'Finished' : `${num(pts)} of ${g.target} points &middot; ${pct}%`}</span>
         <button class="link" type="button" data-action="toggle-goal" data-id="${g.id}">${g.done ? 'Reopen' : 'Mark finished'}</button></div>
     </li>`;
   }).join('');
@@ -838,29 +939,74 @@ function renderActs() {
     <button class="x" type="button" data-action="rm-act" data-id="${a.id}" aria-label="Remove activity ${esc(a.name)}">&times;</button>
   </li>`).join('');
 }
+function todoRow(x) {
+  return `<li class="todo-row"><label class="todo ${x.done ? 'done' : ''}" for="todo-${x.id}">
+      <input type="checkbox" id="todo-${x.id}" data-todo="${x.id}" ${x.done ? 'checked' : ''}>
+      <span class="t">${esc(x.text)}</span>${x.done && x.doneDate ? `<span class="tag">${fmtShort(x.doneDate)}</span>` : ''}</label>
+    <button class="x" type="button" data-action="rm-todo" data-id="${x.id}" aria-label="Remove todo ${esc(x.text)}">&times;</button></li>`;
+}
+function renderTodos() {
+  const open = state.todos.filter(x => !x.done);
+  const done = state.todos.filter(x => x.done).sort((a, b) => (b.doneAt || 0) - (a.doneAt || 0));
+  let html = open.length ? open.map(todoRow).join('') : '<li class="empty">Nothing waiting. Add a one-off task.</li>';
+  if (done.length) {
+    html += `<li class="todo-done-head"><span class="eyebrow">Done</span><button class="link" type="button" data-action="clear-done-todos">Clear done</button></li>`
+      + done.slice(0, 8).map(todoRow).join('')
+      + (done.length > 8 ? `<li class="hint">${done.length - 8} older done todos are in History.</li>` : '');
+  }
+  $('#todos').innerHTML = html;
+}
+
+// Days open or closed. This is a per-device preference and is not synced. Today starts open.
+let openMap = readJSON(localStorage, 'moon.open') || {};
+const isOpen = date => (date in openMap) ? !!openMap[date] : date === today();
+function setOpen(date, v) {
+  openMap[date] = v;
+  try { localStorage.setItem('moon.open', JSON.stringify(openMap)); } catch {}
+}
+
 function dayHtml(date, t) {
   const day = state.days[date] || {};
-  const lvl = day.level || '';
+  const lvls = LEVEL_IDS.filter(l => dayLevels(day).includes(l));
   const d = parse(date);
+  const open = isOpen(date);
   const due = dueOn(date);
+  const doneTodos = state.todos.filter(x => x.done && x.doneDate === date);
 
-  const levels = LEVELS.map(l => `<label class="lvl ${l.cls}"><input type="radio" name="lvl-${date}" id="lvl-${date}-${l.id}" value="${l.id}" data-level data-date="${date}" ${lvl === l.id ? 'checked' : ''}><span>${l.label}</span></label>`).join('');
+  const mini = lvls.map(l => `<span class="dot ${LV[l].cls}"></span><span class="sr">${LV[l].label}</span>`).join('')
+    + (day.finished ? '<span class="mini-fin" aria-hidden="true">✓</span><span class="sr">Finished</span>' : '');
+  const toggle = `<button class="day-toggle" type="button" id="dt-${date}" data-action="toggle-day" data-date="${date}" aria-expanded="${open}" ${open ? `aria-controls="db-${date}"` : ''}>
+      <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="dayname">${d.toLocaleDateString('en-US', { weekday: 'long' })}</span>
+      <span class="daydate">${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+      ${moonSvg(date)}
+      ${date === t ? '<span class="today-tag">Today</span>' : ''}
+      ${open ? '' : `<span class="mini">${mini}</span>`}
+    </button>`;
+  if (!open) return `<article class="day collapsed ${date === t ? 'today' : ''}" aria-label="${fmtLong(date)}"><div class="day-head">${toggle}</div></article>`;
 
-  const dueHtml = due.length ? due.map(o => `<label class="todo ${o.done ? 'done' : ''}" for="act-${date}-${o.a.id}">
+  const levels = LEVELS.map(l => `<label class="lvl ${l.cls}"><input type="checkbox" id="lvl-${date}-${l.id}" value="${l.id}" data-level data-date="${date}" ${lvls.includes(l.id) ? 'checked' : ''}><span>${l.label}</span></label>`).join('');
+
+  const dueItems = due.map(o => `<label class="todo ${o.done ? 'done' : ''}" for="act-${date}-${o.a.id}">
       <input type="checkbox" id="act-${date}-${o.a.id}" data-act="${o.a.id}" data-date="${date}" ${o.done ? 'checked' : ''}>
       <span class="t">${esc(o.a.name)}</span>
       ${o.overdue ? `<span class="tag over">Overdue &middot; was ${fmtShort(o.was)}</span>` : o.late ? `<span class="tag">Due since ${fmtShort(o.was)}</span>` : `<span class="tag">${freq(o.a)}</span>`}
-    </label>`).join('') : '<p class="none">Nothing due.</p>';
+    </label>`).join('')
+    + doneTodos.map(x => `<label class="todo done" for="todo-${date}-${x.id}">
+      <input type="checkbox" id="todo-${date}-${x.id}" data-todo="${x.id}" checked>
+      <span class="t">${esc(x.text)}</span><span class="tag">Todo</span></label>`).join('');
+  const dueHtml = dueItems || '<p class="none">Nothing due.</p>';
 
-  let menuHtml;
-  if (!lvl) menuHtml = '<p class="none">Pick a level to see its menu.</p>';
-  else if (!state.menu[lvl].length) menuHtml = '<p class="none">This menu is empty. Add ideas under Menu.</p>';
-  else {
-    const doneIds = day.menuDone || [];
-    menuHtml = state.menu[lvl].map(it => `<label class="todo ${doneIds.includes(it.id) ? 'done' : ''}" for="menu-${date}-${it.id}">
+  // One menu per chosen color, in green, yellow, red order.
+  const doneIds = day.menuDone || [];
+  const menuBlock = l => {
+    const items = state.menu[l];
+    const body = items.length ? items.map(it => `<label class="todo ${doneIds.includes(it.id) ? 'done' : ''}" for="menu-${date}-${it.id}">
       <input type="checkbox" id="menu-${date}-${it.id}" data-menu="${it.id}" data-date="${date}" ${doneIds.includes(it.id) ? 'checked' : ''}>
-      <span class="t">${esc(it.text)}</span></label>`).join('');
-  }
+      <span class="t">${esc(it.text)}</span></label>`).join('') : '<p class="none">This menu is empty. Add ideas under Menu.</p>';
+    return `<div class="menu-block ${LV[l].cls}"><span class="eyebrow lvl-eyebrow">${LV[l].label} menu</span><span class="sub">${LV[l].hint}</span>${body}</div>`;
+  };
+  const menuHtml = lvls.length ? `<div class="menu-blocks">${lvls.map(menuBlock).join('')}</div>` : '<p class="none">Pick a color to see its menu.</p>';
 
   let fin = '';
   if (day.finished) {
@@ -869,24 +1015,20 @@ function dayHtml(date, t) {
     fin = `<div class="done-note"><span class="eyebrow">Accomplished</span><p>${day.accomplished ? esc(day.accomplished) : 'No note.'}</p>${chips ? `<div class="chips">${chips}</div>` : ''}</div>`;
   }
 
+  const canClear = lvls.length || day.finished || (day.menuDone && day.menuDone.length) || state.log.some(l => l.date === date) || doneTodos.length;
   return `<article class="day ${date === t ? 'today' : ''}" aria-label="${fmtLong(date)}">
     <div class="day-head">
-      <div class="day-title">
-        <span class="dayname">${d.toLocaleDateString('en-US', { weekday: 'long' })}</span>
-        <span class="daydate">${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
-        ${moonSvg(date)}
-        ${date === t ? '<span class="today-tag">Today</span>' : ''}
-      </div>
+      ${toggle}
       <div class="day-actions">
-        <fieldset class="levels"><legend class="sr">How was ${fmtLong(date)}</legend>${levels}</fieldset>
-        ${(lvl || day.finished || (day.menuDone && day.menuDone.length) || state.log.some(l => l.date === date)) ? `<button class="link" type="button" id="clr-${date}" data-action="clear-day" data-date="${date}" aria-label="Clear the color and everything checked for ${fmtLong(date)}">Clear day</button>` : ''}
+        <fieldset class="levels"><legend class="sr">Colors for ${fmtLong(date)}. Pick any.</legend>${levels}</fieldset>
+        ${canClear ? `<button class="link" type="button" id="clr-${date}" data-action="clear-day" data-date="${date}" aria-label="Clear the colors and everything checked for ${fmtLong(date)}">Clear day</button>` : ''}
         ${day.finished ? '<span class="finished-badge">Finished</span>' : ''}
         <button class="btn ${day.finished ? '' : 'primary'}" type="button" data-action="finish" data-date="${date}">${day.finished ? 'Edit day' : 'Finish day'}</button>
       </div>
     </div>
-    <div class="day-body">
+    <div class="day-body" id="db-${date}">
       <div><span class="eyebrow">Due</span>${dueHtml}</div>
-      <div><span class="eyebrow">${lvl ? `${LV[lvl].label} menu` : 'Menu'}</span>${lvl ? `<span class="sub">${LV[lvl].hint}</span>` : ''}${menuHtml}</div>
+      <div>${lvls.length === 1 ? '' : '<span class="eyebrow">Menu</span>'}${menuHtml}</div>
     </div>
     ${fin}
   </article>`;
@@ -898,14 +1040,15 @@ function renderWeek() {
   const a = parse(days[0]), b = parse(days[6]);
   $('#weekLabel').textContent = `${a.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} – ${b.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
   const counts = { green: 0, yellow: 0, red: 0 };
-  days.forEach(d => { const l = state.days[d] && state.days[d].level; if (l) counts[l]++; });
+  days.forEach(d => dayLevels(state.days[d] || {}).forEach(l => { if (counts[l] != null) counts[l]++; }));
   $('#weekSummary').innerHTML = LEVELS.map(l => `<span><span class="dot ${l.cls}"></span>${counts[l.id]} ${l.label.toLowerCase()}</span>`).join('');
+  $('#toggleAll').textContent = days.some(isOpen) ? 'Collapse all' : 'Expand all';
   $('#week').innerHTML = days.map(d => dayHtml(d, t)).join('');
 }
 function render() {
   const id = document.activeElement && document.activeElement.id;
   $('#logo').innerHTML = moonSvg(today(), 'moon');
-  renderGoals(); renderMenuCounts(); renderActs(); renderWeek();
+  renderGoals(); renderMenuCounts(); renderActs(); renderTodos(); renderWeek();
   if (id) { const el = document.getElementById(id); if (el) el.focus({ preventScroll: true }); }
 }
 
@@ -924,23 +1067,26 @@ function renderMenuDlg() {
 /* ---------- finish dialog ---------- */
 let finishDate = null;
 function levelRadios(name, current) {
-  return LEVELS.map(l => `<label class="lvl ${l.cls}"><input type="radio" name="${name}" value="${l.id}" ${current === l.id ? 'checked' : ''}><span>${l.label}</span></label>`).join('');
+  return LEVELS.map(l => `<label class="lvl ${l.cls}"><input type="checkbox" name="${name}" value="${l.id}" ${current.includes(l.id) ? 'checked' : ''}><span>${l.label}</span></label>`).join('');
 }
 function openFinish(date) {
   finishDate = date;
   const day = state.days[date] || {};
   $('#finTitle').textContent = `Finish ${fmtLong(date)}`;
-  $('#finLevels').innerHTML = levelRadios('fin-level', day.level || '');
+  $('#finLevels').innerHTML = levelRadios('fin-level', dayLevels(day));
   $('#fin-text').value = day.accomplished || '';
   const done = dueOn(date).filter(o => o.done).map(o => o.a.name);
   $('#finActs').textContent = done.length ? `Already checked off today: ${done.join(', ')}.` : '';
   $('#finActs').hidden = !done.length;
   $('#finGoalsWrap').hidden = !state.goals.length;
-  const labels = ['None', 'Small', 'Solid', 'Big'];
+  const PRESETS = [0, 1, 2, 5];
   $('#finGoals').innerHTML = state.goals.map(g => {
     const cur = (day.goalPts && day.goalPts[g.id]) || 0;
-    return `<div class="gp"><span class="gp-name">${esc(g.name)}</span><div class="seg" role="radiogroup" aria-label="Progress on ${esc(g.name)}">
-      ${labels.map((lb, i) => `<label><input type="radio" name="gp-${g.id}" value="${i}" ${cur === i ? 'checked' : ''}><span>${lb}</span></label>`).join('')}</div></div>`;
+    const isOther = !PRESETS.includes(cur);
+    const opts = PRESETS.map(v => `<label><input type="radio" name="gp-${g.id}" value="${v}" ${!isOther && cur === v ? 'checked' : ''}><span>${v === 0 ? 'None' : '+' + v}</span></label>`).join('')
+      + `<label><input type="radio" name="gp-${g.id}" value="other" ${isOther ? 'checked' : ''}><span>Other</span></label>`;
+    return `<div class="gp"><span class="gp-name">${esc(g.name)}</span><div class="gp-ctl"><div class="seg" role="radiogroup" aria-label="Progress on ${esc(g.name)}">${opts}</div>
+      <input type="number" class="gp-num" id="gp-num-${g.id}" min="0" step="any" inputmode="decimal" aria-label="Points for ${esc(g.name)}" value="${isOther ? num(cur) : ''}" ${isOther ? '' : 'hidden'}></div></div>`;
   }).join('');
   $('#finErr').hidden = true;
   $('#finishDlg').showModal();
@@ -949,35 +1095,35 @@ function openFinish(date) {
 /* ---------- week summary ---------- */
 let sumText = '';
 function goalPct(g) { return g.done ? 100 : Math.min(100, Math.round(goalPoints(g.id) / g.target * 100)); }
+// Net check-offs from the history: a check-off and its undo cancel out.
+function netByKey(kind, dates) {
+  const map = new Map();
+  [...state.history].sort((a, b) => a.t - b.t).forEach(e => {
+    if (e.kind !== kind || !dates.includes(e.date)) return;
+    const key = (e.level || '') + '|' + (e.text || '');
+    if (!map.has(key)) map.set(key, { text: e.text || '', lvl: LV[e.level] ? e.level : 'green', dates: [] });
+    const it = map.get(key);
+    if (e.off) { const i = it.dates.lastIndexOf(e.date); if (i > -1) it.dates.splice(i, 1); }
+    else it.dates.push(e.date);
+  });
+  return [...map.values()].filter(x => x.dates.length).map(x => ({ ...x, dates: x.dates.sort() }));
+}
 function weekData(ws) {
   const dates = Array.from({ length: 7 }, (_, i) => addDays(ws, i));
   const rows = dates.map(date => ({ date, day: state.days[date] || {} }));
   const counts = { green: 0, yellow: 0, red: 0, none: 0 };
-  rows.forEach(r => { counts[r.day.level || 'none']++; });
+  rows.forEach(r => { const lv = dayLevels(r.day); if (!lv.length) counts.none++; lv.forEach(l => { if (counts[l] != null) counts[l]++; }); });
   const finished = rows.filter(r => r.day.finished).length;
-  const actMap = new Map();
-  state.log.filter(l => dates.includes(l.date)).forEach(l => {
-    const a = state.activities.find(x => x.id === l.act);
-    if (!a) return;
-    if (!actMap.has(a.id)) actMap.set(a.id, { name: a.name, dates: [] });
-    actMap.get(a.id).dates.push(l.date);
-  });
   const goals = state.goals.map(g => ({
     g, pct: goalPct(g),
     gained: rows.reduce((s, r) => s + ((r.day.finished && r.day.goalPts && r.day.goalPts[g.id]) || 0), 0)
   }));
-  const menuMap = new Map();
-  rows.forEach(r => {
-    const lvl = r.day.level;
-    (r.day.menuDone || []).forEach(id => {
-      const it = (state.menu[lvl] || []).find(i => i.id === id);
-      if (!it) return;
-      const key = lvl + '|' + it.text;
-      if (!menuMap.has(key)) menuMap.set(key, { lvl, text: it.text, n: 0 });
-      menuMap.get(key).n++;
-    });
-  });
-  return { dates, rows, counts, finished, acts: [...actMap.values()], goals, menu: [...menuMap.values()] };
+  return {
+    dates, rows, counts, finished, goals,
+    acts: netByKey('activity', dates).map(x => ({ name: x.text, dates: x.dates })),
+    menu: netByKey('menu', dates).map(x => ({ lvl: x.lvl, text: x.text, n: x.dates.length })),
+    todos: netByKey('todo', dates).map(x => ({ text: x.text, dates: x.dates }))
+  };
 }
 function openSummary() {
   const ws = weekStart(view);
@@ -990,8 +1136,11 @@ function openSummary() {
   $('#sumTitle').textContent = `Week of ${range}`;
 
   const strip = w.rows.map(r => {
-    const l = r.day.level ? LV[r.day.level] : null;
-    return `<div class="sum-cell ${l ? l.cls : ''}"><span class="sum-dow">${wd(r.date)}</span><span class="sum-lvl">${l ? l.label : 'Not set'}</span>`
+    const lv = dayLevels(r.day).filter(x => LV[x]);
+    const one = lv.length === 1 ? LV[lv[0]].cls : '';
+    const dots = lv.map(x => `<span class="dot ${LV[x].cls}"></span>`).join('');
+    const names = lv.length ? lv.map(x => LV[x].label).join(' + ') : 'Not set';
+    return `<div class="sum-cell ${one}"><span class="sum-dow">${wd(r.date)}</span>${dots ? `<span class="sum-dots">${dots}</span>` : ''}<span class="sum-lvl">${names}</span>`
       + `<span class="sum-fin">${r.day.finished ? '<span aria-hidden="true">✓</span><span class="sr">Finished</span>' : ''}</span></div>`;
   }).join('');
 
@@ -1005,32 +1154,115 @@ function openSummary() {
     `<li>${esc(x.name)}${x.dates.length > 1 ? ` ×${x.dates.length}` : ''}<span class="act-meta">${x.dates.map(wd).join(', ')}</span></li>`).join('')}</ul>` : '<p class="none">No activities checked off.</p>';
 
   const goalsHtml = w.goals.length ? w.goals.map(x => `<div class="sum-goal"><div class="sum-goal-top"><span class="goal-name">${esc(x.g.name)}</span>`
-    + `<span class="act-meta">${x.gained ? `+${x.gained} this week` : 'No movement'} · ${x.pct}% overall</span></div>`
+    + `<span class="act-meta">${x.gained ? `+${num(x.gained)} this week` : 'No movement'} · ${x.pct}% overall</span></div>`
     + `<div class="scale" role="progressbar" aria-label="${esc(x.g.name)} progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${x.pct}"><i style="width:${x.pct}%"></i></div></div>`).join('') : '<p class="none">No goals yet.</p>';
 
   const menuHtml = w.menu.length ? `<ul>${w.menu.map(m =>
     `<li><span class="dot ${LV[m.lvl].cls}"></span> ${esc(m.text)}${m.n > 1 ? ` ×${m.n}` : ''}</li>`).join('')}</ul>` : '<p class="none">No menu items checked off.</p>';
 
+  const todosHtml = w.todos.length ? `<ul>${w.todos.map(x => `<li>${esc(x.text)}<span class="act-meta">${x.dates.map(wd).join(', ')}</span></li>`).join('')}</ul>` : '<p class="none">No todos checked off.</p>';
+
   $('#sumBody').innerHTML = `
     <div class="sum-sec"><div class="sum-strip" role="list">${strip}</div><p class="sum-line">${tally}</p></div>
     <div class="sum-sec"><h3 class="eyebrow">Accomplished</h3>${doneHtml}</div>
     <div class="sum-sec"><h3 class="eyebrow">Activities done</h3>${actsHtml}</div>
+    <div class="sum-sec"><h3 class="eyebrow">Todos done</h3>${todosHtml}</div>
     <div class="sum-sec"><h3 class="eyebrow">Goals</h3>${goalsHtml}</div>
     <div class="sum-sec"><h3 class="eyebrow">From the menu</h3>${menuHtml}</div>`;
 
-  const lines = [`MOON, week of ${range}, ${b.getFullYear()}`, '', 'Days: ' + w.rows.map(r => `${wd(r.date)} ${r.day.level ? LV[r.day.level].label : 'not set'}`).join(', '), tally];
+  const lines = [`MOON, week of ${range}, ${b.getFullYear()}`, '', 'Days: ' + w.rows.map(r => `${wd(r.date)} ${dayLevels(r.day).length ? dayLevels(r.day).map(x => LV[x].label).join(' + ') : 'not set'}`).join(', '), tally];
   if (done.length) {
     lines.push('', 'Accomplished');
     done.forEach(r => lines.push(`${wd(r.date)}: ${r.day.accomplished || 'finished, no note'}`));
   }
   if (w.acts.length) lines.push('', 'Activities done', ...w.acts.map(x => `${x.name}${x.dates.length > 1 ? ` x${x.dates.length}` : ''} (${x.dates.map(wd).join(', ')})`));
-  if (w.goals.length) lines.push('', 'Goals', ...w.goals.map(x => `${x.g.name}: ${x.gained ? `+${x.gained} this week` : 'no movement'}, ${x.pct}% overall`));
+  if (w.todos.length) lines.push('', 'Todos done', ...w.todos.map(x => `${x.text} (${x.dates.map(wd).join(', ')})`));
+  if (w.goals.length) lines.push('', 'Goals', ...w.goals.map(x => `${x.g.name}: ${x.gained ? `+${num(x.gained)} this week` : 'no movement'}, ${x.pct}% overall`));
   if (w.menu.length) lines.push('', 'From the menu', ...w.menu.map(m => `${LV[m.lvl].label}: ${m.text}${m.n > 1 ? ` x${m.n}` : ''}`));
   sumText = lines.join('\n');
 
   $('#sumText').hidden = true;
   $('#sumNote').textContent = '';
   $('#sumDlg').showModal();
+}
+
+/* ---------- history ---------- */
+let histLimit = 30;
+function histDays() {
+  const by = new Map();
+  state.history.forEach(e => { if (!by.has(e.date)) by.set(e.date, []); by.get(e.date).push(e); });
+  Object.keys(state.days).forEach(d => { if (!by.has(d)) by.set(d, []); });
+  return [...by.entries()].sort((a, b) => b[0].localeCompare(a[0]));
+}
+function dayColor(date, evs) {
+  let set = null;
+  evs.forEach(e => {
+    if (e.kind === 'color') {
+      if (!e.multi) { set = e.level ? [e.level] : []; return; } // older entries stored one color per day
+      const cur = new Set(set || []);
+      if (e.off) cur.delete(e.level); else cur.add(e.level);
+      set = LEVEL_IDS.filter(l => cur.has(l));
+    } else if (e.kind === 'finish') {
+      const fl = e.levels || (e.level ? [e.level] : []);
+      set = LEVEL_IDS.filter(l => fl.includes(l));
+    } else if (e.kind === 'cleared') set = [];
+  });
+  return set === null ? dayLevels(state.days[date] || {}) : set;
+}
+function evHtml(e) {
+  const L = LV[e.level] ? LV[e.level].label : '';
+  const x = esc(e.text || '');
+  switch (e.kind) {
+    case 'color': return `${e.off ? 'Unmarked' : 'Marked'} ${L || 'no color'}`;
+    case 'cleared': return 'Cleared the day';
+    case 'activity': return `${e.off ? 'Unchecked' : 'Done'}: ${x}`;
+    case 'menu': return `${e.off ? 'Unchecked from' : 'From'} the ${L ? L.toLowerCase() + ' ' : ''}menu: ${x}`;
+    case 'todo': return `${e.off ? 'Unchecked todo' : 'Todo done'}: ${x}`;
+    case 'goal': return `${e.off ? 'Reopened goal' : 'Finished goal'}: ${x}`;
+    case 'finish': {
+      const fl = (e.levels || (e.level ? [e.level] : [])).filter(l => LV[l]).map(l => LV[l].label.toLowerCase()).join(' and ');
+      const g = (e.goals || []).map(z => `<span class="chip">${esc(z.name)} +${z.pts}</span>`).join('');
+      return `Finished the day${fl ? ` as ${fl}` : ''}${e.note ? `<div class="hist-note">${esc(e.note)}</div>` : ''}${g ? `<div class="chips">${g}</div>` : ''}`;
+    }
+    default: return esc(e.kind);
+  }
+}
+function renderHistory() {
+  const items = histDays().map(([date, evs]) => {
+    evs.sort((a, b) => a.t - b.t);
+    return { date, evs, lvl: dayColor(date, evs) };
+  });
+  const c = { green: 0, yellow: 0, red: 0, none: 0 };
+  items.forEach(i => { if (!i.lvl.length) c.none++; i.lvl.forEach(l => { c[l]++; }); });
+  $('#histTally').textContent = items.length
+    ? `${items.length} days logged. Days with green: ${c.green}, yellow: ${c.yellow}, red: ${c.red}${c.none ? `. With no color: ${c.none}` : ''}.` : '';
+  const shown = items.slice(0, histLimit);
+  $('#histBody').innerHTML = shown.length ? shown.map(i => {
+    const when = parse(i.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+    const chip = `<span class="chips">${i.lvl.length ? i.lvl.map(l => `<span class="chip ${LV[l].cls}"><span class="dot ${LV[l].cls}"></span>${LV[l].label}</span>`).join('') : '<span class="chip">No color</span>'}</span>`;
+    const lines = i.evs.map(e => {
+      const time = e.backfill ? '' : new Date(e.t).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+      return `<li class="hist-ev"><span class="hist-time">${time}</span><span class="hist-txt">${evHtml(e)}</span></li>`;
+    }).join('');
+    return `<section class="hist-day"><div class="hist-head"><span class="hist-date">${when}</span>${chip}</div>${lines ? `<ul>${lines}</ul>` : ''}</section>`;
+  }).join('') + (items.length > histLimit ? '<button class="btn" type="button" data-action="more-history">Show older days</button>' : '')
+    : '<p class="none">Nothing logged yet. Colors and check-offs will be recorded here with the date.</p>';
+}
+function openHistory() { histLimit = 30; renderHistory(); $('#histDlg').showModal(); }
+function exportHistory() {
+  const safe = v => { v = String(v == null ? '' : v); return '"' + (/^[=+\-@]/.test(v) ? "'" + v : v).replace(/"/g, '""') + '"'; };
+  const rows = [['date', 'time', 'kind', 'level', 'text', 'note']];
+  [...state.history].sort((a, b) => a.t - b.t).forEach(e => {
+    const time = e.backfill ? '' : new Date(e.t).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    const text = e.kind === 'finish' ? (e.goals || []).map(g => `${g.name} +${g.pts}`).join('; ') : (e.text || '');
+    rows.push([e.date, time, e.off ? e.kind + ' (undone)' : e.kind, [].concat(e.levels || e.level || e.was || '').join(' + '), text, e.note || '']);
+  });
+  const blob = new Blob([rows.map(r => r.map(safe).join(',')).join('\n')], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `moon-history-${today()}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 /* ---------- events ---------- */
@@ -1056,18 +1288,44 @@ document.addEventListener('click', e => {
   else if (act === 'clear-day') {
     const date = btn.dataset.date;
     const day = state.days[date] || {};
-    const hasMore = day.finished || day.accomplished || (day.menuDone && day.menuDone.length) || state.log.some(l => l.date === date);
+    const hasMore = day.finished || day.accomplished || (day.menuDone && day.menuDone.length) || state.log.some(l => l.date === date) || state.todos.some(x => x.done && x.doneDate === date);
     if (hasMore && !armed(btn, 'Clear all?')) return;
-    // Put back activities that were checked off on this day, so they are due again.
+    // Put back activities and todos checked off on this day. History keeps a record of all of it.
     state.log.filter(l => l.date === date).forEach(e => {
       const a = state.activities.find(x => x.id === e.act);
       state.log.splice(state.log.indexOf(e), 1);
       if (a && !state.log.some(l => l.act === e.act && l.date > e.date)) a.nextDue = e.prev;
+      logEvent('activity', date, { text: e.name || (a && a.name) || 'An activity', off: true });
     });
+    state.todos.filter(x => x.done && x.doneDate === date).forEach(x => {
+      logEvent('todo', date, { text: x.text, off: true });
+      x.done = false; delete x.doneDate; delete x.doneAt;
+    });
+    (day.menuDone || []).forEach(id => {
+      for (const l of LEVEL_IDS) {
+        const it = state.menu[l].find(i => i.id === id);
+        if (it) { logEvent('menu', date, { text: it.text, level: l, off: true }); break; }
+      }
+    });
+    logEvent('cleared', date, { was: dayLevels(day) });
     delete state.days[date];
     persist(); render();
   }
   else if (act === 'week-summary') openSummary();
+  else if (act === 'toggle-day') { setOpen(btn.dataset.date, !isOpen(btn.dataset.date)); render(); }
+  else if (act === 'toggle-all') {
+    const ws = weekStart(view);
+    const ds = Array.from({ length: 7 }, (_, i) => addDays(ws, i));
+    const any = ds.some(isOpen);
+    ds.forEach(d => setOpen(d, !any));
+    render();
+  }
+  else if (act === 'open-history') openHistory();
+  else if (act === 'close-history') $('#histDlg').close();
+  else if (act === 'more-history') { histLimit += 30; renderHistory(); }
+  else if (act === 'export-history') exportHistory();
+  else if (act === 'rm-todo') { if (armed(btn)) { state.todos = state.todos.filter(x => x.id !== btn.dataset.id); persist(); render(); } }
+  else if (act === 'clear-done-todos') { state.todos = state.todos.filter(x => !x.done); persist(); render(); }
   else if (act === 'close-summary') $('#sumDlg').close();
   else if (act === 'copy-summary') {
     const note = $('#sumNote'), ta = $('#sumText');
@@ -1085,7 +1343,7 @@ document.addEventListener('click', e => {
   else if (act === 'close-pw') $('#pwDlg').close();
   else if (act === 'tab') { menuTab = btn.dataset.level; renderMenuDlg(); }
   else if (act === 'rm-goal') { if (armed(btn)) { state.goals = state.goals.filter(g => g.id !== btn.dataset.id); persist(); render(); } }
-  else if (act === 'toggle-goal') { const g = state.goals.find(x => x.id === btn.dataset.id); if (g) { g.done = !g.done; persist(); render(); } }
+  else if (act === 'toggle-goal') { const g = state.goals.find(x => x.id === btn.dataset.id); if (g) { g.done = !g.done; logEvent('goal', today(), { text: g.name, off: !g.done }); persist(); render(); } }
   else if (act === 'rm-act') { if (armed(btn)) { state.activities = state.activities.filter(a => a.id !== btn.dataset.id); persist(); render(); } }
   else if (act === 'rm-menu') { if (armed(btn)) { state.menu[menuTab] = state.menu[menuTab].filter(i => i.id !== btn.dataset.id); persist(); renderMenuDlg(); render(); } }
   else if (act === 'export') {
@@ -1102,7 +1360,12 @@ document.addEventListener('change', e => {
   const t = e.target;
   if (t.matches('input[data-level]')) {
     const date = t.dataset.date;
-    state.days[date] = { ...(state.days[date] || {}), level: t.value, menuDone: [] };
+    const day = state.days[date] = state.days[date] || {};
+    const set = new Set(dayLevels(day));
+    if (t.checked) set.add(t.value); else set.delete(t.value);
+    day.levels = LEVEL_IDS.filter(l => set.has(l));
+    delete day.level;
+    logEvent('color', date, { level: t.value, multi: true, off: !t.checked });
     persist(); render();
   } else if (t.matches('input[data-act]')) {
     toggleAct(t.dataset.date, t.dataset.act, t.checked);
@@ -1112,7 +1375,25 @@ document.addEventListener('change', e => {
     const set = new Set(day.menuDone || []);
     t.checked ? set.add(t.dataset.menu) : set.delete(t.dataset.menu);
     day.menuDone = [...set];
+    let it = null, lv = '';
+    for (const l of LEVEL_IDS) { const f = state.menu[l].find(i => i.id === t.dataset.menu); if (f) { it = f; lv = l; break; } }
+    logEvent('menu', date, { text: it ? it.text : 'A menu item', level: lv, off: !t.checked });
     persist(); render();
+  } else if (t.matches('#finGoals input[type="radio"]')) {
+    const box = document.getElementById('gp-num-' + t.name.slice(3));
+    if (box) { box.hidden = t.value !== 'other'; if (!box.hidden) box.focus(); }
+  } else if (t.matches('input[data-todo]')) {
+    const td = state.todos.find(x => x.id === t.dataset.todo);
+    if (td) {
+      if (t.checked) {
+        td.done = true; td.doneDate = today(); td.doneAt = Date.now();
+        logEvent('todo', td.doneDate, { text: td.text });
+      } else {
+        logEvent('todo', td.doneDate || today(), { text: td.text, off: true });
+        td.done = false; delete td.doneDate; delete td.doneAt;
+      }
+      persist(); render();
+    }
   } else if (t.id === 'importFile' && t.files[0]) {
     const reader = new FileReader();
     reader.onload = () => {
@@ -1130,7 +1411,7 @@ document.addEventListener('change', e => {
 $('#goalForm').addEventListener('submit', e => {
   e.preventDefault();
   const name = $('#goal-name').value.trim();
-  const target = Math.max(1, Math.min(500, parseInt($('#goal-target').value, 10) || 20));
+  const target = Math.max(1, Math.min(100000, parseInt($('#goal-target').value, 10) || 20));
   if (!name) return;
   state.goals.push({ id: uid(), name, target });
   $('#goal-name').value = '';
@@ -1160,19 +1441,41 @@ $('#menuForm').addEventListener('submit', e => {
 });
 $('#finishForm').addEventListener('submit', e => {
   e.preventDefault();
-  const picked = $('#finishForm').querySelector('input[name="fin-level"]:checked');
-  if (!picked) { $('#finErr').hidden = false; return; }
+  const picked = LEVEL_IDS.filter(id => $('#finishForm').querySelector(`input[name="fin-level"][value="${id}"]`).checked);
+  const err = $('#finErr');
+  if (!picked.length) { err.textContent = 'Pick at least one color for the day first.'; err.hidden = false; return; }
   const goalPts = {};
-  state.goals.forEach(g => {
+  for (const g of state.goals) {
     const r = $('#finishForm').querySelector(`input[name="gp-${g.id}"]:checked`);
-    if (r && +r.value > 0) goalPts[g.id] = +r.value;
-  });
+    let v = 0;
+    if (r && r.value === 'other') {
+      v = parseFloat($(`#gp-num-${g.id}`).value);
+      if (!Number.isFinite(v) || v < 0) { err.textContent = `Enter a number of points for ${g.name}, or pick None.`; err.hidden = false; return; }
+    } else if (r) v = +r.value;
+    v = Math.round(Math.min(v, 1000000) * 100) / 100;
+    if (v > 0) goalPts[g.id] = v;
+  }
   const prev = state.days[finishDate] || {};
-  const levelChanged = prev.level !== picked.value;
-  state.days[finishDate] = { ...prev, level: picked.value, menuDone: levelChanged ? [] : (prev.menuDone || []),
-    accomplished: $('#fin-text').value.trim(), goalPts, finished: true };
+  const before = dayLevels(prev);
+  const levelsChanged = before.join() !== picked.join();
+  const note = $('#fin-text').value.trim();
+  const unchanged = prev.finished && !levelsChanged && (prev.accomplished || '') === note && JSON.stringify(prev.goalPts || {}) === JSON.stringify(goalPts);
+  picked.filter(l => !before.includes(l)).forEach(l => logEvent('color', finishDate, { level: l, multi: true }));
+  before.filter(l => !picked.includes(l)).forEach(l => logEvent('color', finishDate, { level: l, multi: true, off: true }));
+  if (!unchanged) logEvent('finish', finishDate, { levels: picked, note, goals: state.goals.filter(g => goalPts[g.id]).map(g => ({ name: g.name, pts: goalPts[g.id] })) });
+  state.days[finishDate] = { ...prev, levels: picked, accomplished: note, goalPts, finished: true };
   $('#finishDlg').close();
   persist(); render();
+});
+
+$('#todoForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const text = $('#todo-new').value.trim();
+  if (!text) return;
+  state.todos.push({ id: uid(), text, done: false, created: Date.now() });
+  $('#todo-new').value = '';
+  persist(); render();
+  $('#todo-new').focus();
 });
 
 $('#syncForm').addEventListener('submit', async e => {
